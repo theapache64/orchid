@@ -4,9 +4,7 @@ import com.tp.orchid.App
 import com.tp.orchid.di.modules.AppModule
 import com.tp.orchid.di.modules.BuildersModule
 import com.tp.orchid.di.modules.NetworkModule
-import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -21,5 +19,6 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
+    // inject the above given modules into this App class
     fun inject(app: App)
 }
