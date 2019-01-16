@@ -15,7 +15,7 @@ class MainActivity : DaggerAppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            view.snackBar("Hello")
+            toast("Hello")
         }
     }
 
