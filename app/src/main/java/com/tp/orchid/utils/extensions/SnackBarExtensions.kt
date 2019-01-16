@@ -4,7 +4,7 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
 /**
- * To show short + simple snackbar with just a message
+ * To show short and simple snackbar with just a message
  */
 fun View.snackBar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
