@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.tp.orchid.ui.activities.login.LogInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,6 +58,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lines="1"
+                android:singleLine="true"
+                android:text="@={viewModel.username}"
                 android:textColor="@android:color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +86,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:text="@={viewModel.password}"
                 android:textColor="@android:color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,6 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:onClick="@{()-> viewModel.onLogInPressed()}"
             android:text="@string/action_login"
             app:layout_constraintEnd_toEndOf="@id/tilPassword"
             app:layout_constraintStart_toStartOf="@id/tilPassword"

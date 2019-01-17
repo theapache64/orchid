@@ -29,7 +29,8 @@
         <!--LogIn-->
         <activity
             android:name=".ui.activities.login.LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- MainActivity -->
         <activity
