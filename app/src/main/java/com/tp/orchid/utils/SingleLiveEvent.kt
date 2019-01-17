@@ -16,7 +16,7 @@ class SingleLiveEvent<T> : LiveData<T>() {
         })
     }
 
-    fun done(value: T) {
+    fun notifyFinished(value: T) {
         this.value = value
     }
 }

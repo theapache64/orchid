@@ -1,5 +1,7 @@
 package com.tp.orchid.ui.activities.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,9 +16,18 @@ import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
 
+    companion object {
+
+        const val ID = R.id.MAIN_ACTIVITY_ID
+
+        fun start(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
+
     @Inject
     lateinit var factory: ViewModelProvider.Factory;
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
