@@ -7,6 +7,7 @@ import com.tp.orchid.data.remote.ApiInterface
 import com.tp.orchid.data.remote.login.LogInRequest
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.utils.Resource
+import io.reactivex.Observer
 import io.reactivex.Scheduler
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,17 +17,20 @@ import javax.inject.Inject
 
 class LogInRepository @Inject constructor(val apiInterface: ApiInterface) {
 
-    @SuppressLint("CheckResult")
+
     fun login(logInRequest: LogInRequest): LiveData<Resource<LogInResponse>> {
 
         val logInLiveData = MutableLiveData<Resource<LogInResponse>>()
-
         apiInterface.logIn(logInRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : SingleObserver<LogInResponse> {
+                .subscribe(object : SingleObserver<LogInResponse> {
                     override fun onSuccess(t: LogInResponse) {
-                        logInLiveData.value = Resource.success(t)
+                        if (!t.error) {
+                            logInLiveData.value = Resource.success(t)
+                        } else {
+                            logInLiveData.value = Resource.error(t.message, null)
+                        }
                     }
 
                     override fun onSubscribe(d: Disposable) {
@@ -37,6 +41,7 @@ class LogInRepository @Inject constructor(val apiInterface: ApiInterface) {
                         logInLiveData.value = Resource.error(e.message!!, null)
                     }
                 })
+
 
         return logInLiveData;
     }
