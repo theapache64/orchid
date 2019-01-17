@@ -4,12 +4,17 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
 import com.tp.orchid.databinding.ActivityLogInBinding
 import com.tp.orchid.ui.activities.main.MainViewModel
+import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
+import com.tp.orchid.utils.extensions.debug
+import com.tp.orchid.utils.extensions.info
+import com.tp.orchid.utils.extensions.toast
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -28,6 +33,14 @@ class LogInActivity : DaggerAppCompatActivity() {
 
         // Binding ViewModel to LayoutBinder
         binding.viewModel = viewModel
+
+        viewModel.getLogInLiveData().observe(this, Observer {
+            when (it.status) {
+                Resource.Status.LOADING -> debug("Loading...")
+                Resource.Status.ERROR -> error("Error")
+                Resource.Status.SUCCESS -> info("Loaded... ${it.data?.message}")
+            }
+        })
     }
 
 
