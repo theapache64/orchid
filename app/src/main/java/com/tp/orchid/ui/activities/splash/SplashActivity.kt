@@ -22,6 +22,7 @@ class SplashActivity : DaggerAppCompatActivity() {
 
         val viewModel = ViewModelProviders.of(this, factory).get(SplashViewModel::class.java)
 
+        // Watching activity launch command
         viewModel.getLaunchActivityEvent().observe(this, Observer { activityId ->
 
             when (activityId) {
@@ -30,8 +31,11 @@ class SplashActivity : DaggerAppCompatActivity() {
                 else -> throw IllegalArgumentException("Undefined activity id $activityId")
             }
 
+            finish()
+
         })
 
+        // Starting splash timer
         Handler().postDelayed({
             viewModel.checkUser();
         }, SPLASH_DURATION)
