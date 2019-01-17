@@ -14,6 +14,7 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(val logInRepository: LogInRepository) : ViewModel() {
 
     var username: String = ""
+
     var password: String = ""
     private val loginRequestLiveData = MutableLiveData<LogInRequest>()
     private val loginResponseLiveData = Transformations.switchMap(loginRequestLiveData) {
@@ -25,4 +26,6 @@ class LogInViewModel @Inject constructor(val logInRepository: LogInRepository) :
     }
 
     fun getLogInLiveData(): LiveData<Resource<LogInResponse>> = loginResponseLiveData
+
+
 }
