@@ -13,6 +13,7 @@ class SplashViewModel @Inject constructor(val user: LogInResponse.User?) : ViewM
         }, SPLASH_DURATION)
     }
 
+    
     companion object {
         private const val SPLASH_DURATION = 1000L
     }
