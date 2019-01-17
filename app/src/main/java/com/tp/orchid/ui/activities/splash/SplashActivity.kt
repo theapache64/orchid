@@ -40,7 +40,7 @@ class SplashActivity : DaggerAppCompatActivity() {
 
 
     companion object {
-        private const val SPLASH_DURATION = 1000L
+        private const val SPLASH_DURATION = 3000L
     }
 }
 
