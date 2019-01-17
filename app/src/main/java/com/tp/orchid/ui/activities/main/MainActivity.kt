@@ -1,6 +1,7 @@
 package com.tp.orchid.ui.activities.main
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
 import com.tp.orchid.data.remote.login.LogInResponse
@@ -14,7 +15,7 @@ import javax.inject.Inject
 class MainActivity : DaggerAppCompatActivity() {
 
     @Inject
-    lateinit var factory: ViewModelFactory;
+    lateinit var factory: ViewModelProvider.Factory;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

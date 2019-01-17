@@ -1,10 +1,7 @@
 package com.tp.orchid.di.components
 
 import com.tp.orchid.App
-import com.tp.orchid.di.modules.AppModule
-import com.tp.orchid.di.modules.BuildersModule
-import com.tp.orchid.di.modules.NetworkModule
-import com.tp.orchid.di.modules.ViewModelModule
+import com.tp.orchid.di.modules.*
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
@@ -16,6 +13,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         NetworkModule::class,
+        PreferenceModule::class,
         ViewModelModule::class,
         BuildersModule::class
     ]

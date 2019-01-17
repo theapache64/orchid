@@ -17,5 +17,9 @@ class LogInResponse(error: Boolean, message: String, data: Data) :
     class User(
         @SerializedName("name") val name: String,
         @SerializedName("api_key") val apiKey: String
-    )
+    ) {
+        companion object {
+            val KEY = User::class.java.name
+        }
+    }
 }
