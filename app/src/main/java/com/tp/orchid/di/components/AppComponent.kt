@@ -9,14 +9,15 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [
-        AndroidSupportInjectionModule::class,
-        AppModule::class,
-        NetworkModule::class,
-        PreferenceModule::class,
-        ViewModelModule::class,
-        BuildersModule::class
-    ]
+        modules = [
+            AndroidSupportInjectionModule::class,
+            AppModule::class,
+            NetworkModule::class,
+            UserModule::class,
+            PreferenceModule::class,
+            ViewModelModule::class,
+            BuildersModule::class
+        ]
 )
 interface AppComponent {
     // inject the above given modules into this App class

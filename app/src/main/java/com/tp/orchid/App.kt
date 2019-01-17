@@ -3,6 +3,7 @@ package com.tp.orchid
 import android.app.Activity
 import android.app.Application
 import com.tp.orchid.di.components.DaggerAppComponent
+import com.tp.orchid.di.modules.ContextModule
 import com.tp.orchid.di.modules.NetworkModule
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -24,8 +25,9 @@ class App : Application(), HasActivityInjector {
         super.onCreate()
 
         DaggerAppComponent.builder()
-            .networkModule(NetworkModule(BASE_URL))
-            .build()
-            .inject(this)
+                .contextModule(ContextModule(this))
+                .networkModule(NetworkModule(BASE_URL))
+                .build()
+                .inject(this)
     }
 }

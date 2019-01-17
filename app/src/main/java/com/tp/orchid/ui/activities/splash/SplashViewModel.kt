@@ -1,13 +1,21 @@
 package com.tp.orchid.ui.activities.splash
 
+import android.os.Handler
 import androidx.lifecycle.ViewModel
-import com.tp.orchid.data.remote.ApiInterface
 import com.tp.orchid.data.remote.login.LogInResponse
 import javax.inject.Inject
 
-class SplashViewModel @Inject constructor(val user: ApiInterface) : ViewModel() {
+class SplashViewModel @Inject constructor(val user: LogInResponse.User?) : ViewModel() {
+
     fun startTimer() {
-        println("User is $user")
+        Handler().postDelayed({
+
+        }, SPLASH_DURATION)
     }
+
+    companion object {
+        private const val SPLASH_DURATION = 1000L
+    }
+
 
 }

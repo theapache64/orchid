@@ -4,12 +4,13 @@ import android.app.Application
 import android.content.Context
 import com.tp.orchid.di.scopes.AppScope
 import dagger.Module
+import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-abstract class ContextModule(val app: Application) {
+class ContextModule(val app: Application) {
 
-    @AppScope
+    @Provides
     fun provideContext(): Context {
         return app;
     }
