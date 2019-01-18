@@ -27,7 +27,7 @@ class OmdbRepository @Inject constructor(val apiInterface: ApiInterface) {
                         response.value = Resource.success(t)
                     } else {
                         // error
-                        response.value = Resource.error(t.error)
+                        response.value = Resource.error("${t.error} ${keyword}")
                     }
                 }
 

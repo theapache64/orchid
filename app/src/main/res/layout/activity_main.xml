@@ -7,6 +7,11 @@
     <data>
 
         <variable
+            name="adapter"
+            type="com.tp.orchid.ui.adapters.MoviesAdapter" />
+
+
+        <variable
             name="viewModel"
             type="com.tp.orchid.ui.activities.main.MainViewModel" />
     </data>
@@ -31,7 +36,9 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
+            android:id="@+id/include"
             layout="@layout/content_main"
+            bind:adapter="@{adapter}"
             bind:viewModel="@{viewModel}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

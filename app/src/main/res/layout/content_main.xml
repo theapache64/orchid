@@ -3,6 +3,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="adapter"
+            type="com.tp.orchid.ui.adapters.MoviesAdapter" />
+
         <variable
             name="viewModel"
             type="com.tp.orchid.ui.activities.main.MainViewModel" />
@@ -19,30 +25,51 @@
 
         <include layout="@layout/partial_background" />
 
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:text="@{viewModel.message}"
+            android:textColor="@android:color/white"
+            android:visibility='@{viewModel.keyword.equals("")? View.GONE : View.VISIBLE}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Sample text" />
+
+
         <!--Search box-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_search_box"
             style="@style/CustomTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="12dp"
             android:hint="@string/hint_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tv_info">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapWords"
                 android:text="@={viewModel.keyword}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--Movies-->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_movies"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/til_search_box"
             app:layout_constraintStart_toStartOf="@id/til_search_box"
             app:layout_constraintTop_toBottomOf="@id/til_search_box"

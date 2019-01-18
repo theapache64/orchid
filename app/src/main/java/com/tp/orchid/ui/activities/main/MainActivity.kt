@@ -10,6 +10,7 @@ import com.tp.orchid.R
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.databinding.ActivityMainBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
+import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
 import com.tp.orchid.utils.extensions.debug
@@ -17,7 +18,11 @@ import com.tp.orchid.utils.extensions.info
 import com.tp.orchid.utils.extensions.error
 import com.tp.orchid.utils.extensions.toast
 import dagger.android.AndroidInjection
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainActivity : BaseAppCompatActivity() {
@@ -39,14 +44,20 @@ class MainActivity : BaseAppCompatActivity() {
 
         binding.viewModel = viewModel
 
+        // Adapter
+        val adapter = MoviesAdapter(this)
+        binding.adapter = adapter
+
         // Watching for movie response
-        viewModel.getSearchResponse().observe(this, Observer {
-            when (it.status) {
+        viewModel.getSearchResponse().observe(this, Observer { response ->
+            when (response.status) {
                 Resource.Status.LOADING -> debug("Loading...")
-                Resource.Status.SUCCESS -> info("Success : ${it.data!!.search}")
+                Resource.Status.SUCCESS -> {
+                    info("Success :")
+                    adapter.setMovies(response.data!!.movies)
+                }
                 Resource.Status.ERROR -> {
                     error("Error")
-                    toast(it.message!!)
                 }
             }
         })
