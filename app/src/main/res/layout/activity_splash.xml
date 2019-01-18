@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     tools:context=".ui.activities.splash.SplashActivity">
+
+    <include layout="@layout/partial_background" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="100dp"

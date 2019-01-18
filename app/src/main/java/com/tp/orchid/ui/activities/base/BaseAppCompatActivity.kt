@@ -21,6 +21,6 @@ open class BaseAppCompatActivity : AppCompatActivity() {
     }
 
     fun hideLoadingDialog() {
-        progressDialog!!.dismiss()
+        progressDialog?.dismiss()
     }
 }

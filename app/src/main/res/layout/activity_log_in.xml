@@ -15,19 +15,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.activities.login.LogInActivity">
 
-        <!--Background-->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/batman_bg"
-            android:tint="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tintMode="multiply"
-            tools:ignore="ContentDescription" />
+        <include layout="@layout/partial_background" />
 
         <!--Batman-->
         <ImageView
@@ -43,13 +31,11 @@
         <!--Username-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilUsername"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="18dp"
             android:hint="@string/hint_username"
-            android:textColorHint="@android:color/white"
-            app:boxStrokeColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +46,7 @@
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:singleLine="true"
-                android:text="@={viewModel.username}"
-                android:textColor="@android:color/white" />
+                android:text="@={viewModel.username}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,12 +54,11 @@
         <!--Password-->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/CustomTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/hint_password"
-            android:textColorHint="@android:color/white"
             app:layout_constraintEnd_toEndOf="@id/tilUsername"
             app:layout_constraintStart_toStartOf="@id/tilUsername"
             app:layout_constraintTop_toBottomOf="@id/tilUsername"
@@ -88,8 +72,7 @@
                 android:inputType="textPassword"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="@={viewModel.password}"
-                android:textColor="@android:color/white" />
+                android:text="@={viewModel.password}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

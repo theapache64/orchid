@@ -12,14 +12,14 @@ import com.tp.orchid.utils.extensions.info
 import javax.inject.Inject
 
 class LogInViewModel @Inject constructor(
-        val logInRepository: LogInRepository,
-        val sharedPreferences: SharedPreferences,
-        val gson: Gson
+    private val logInRepository: LogInRepository,
+    private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
 ) : ViewModel() {
 
     var username: String = ""
-
     var password: String = ""
+
     private val loginRequestLiveData = MutableLiveData<LogInRequest>()
     private val loginResponseLiveData = Transformations.switchMap(loginRequestLiveData) {
         logInRepository.login(it)
@@ -36,14 +36,26 @@ class LogInViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Saves user as json string
+     */
     private fun saveUser(user: LogInResponse.User) {
         sharedPreferences.edit {
             putString(LogInResponse.User.KEY, gson.toJson(user))
-            commit()
         }
     }
 
+    /**
+     * Login button pressed
+     */
     fun onLogInPressed() {
+
+        if (username.trim().isEmpty() || password.trim().isEmpty()) {
+            loginMerger.value = Resource.error("Invalid username and password", null)
+            return
+        }
+
+
         loginRequestLiveData.value = LogInRequest(username, password)
     }
 

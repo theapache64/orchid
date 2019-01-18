@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
 import com.tp.orchid.databinding.ActivityLogInBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
+import com.tp.orchid.ui.activities.main.MainActivity
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.*
 import dagger.android.AndroidInjection
@@ -38,10 +39,15 @@ class LogInActivity : BaseAppCompatActivity() {
                 Resource.Status.LOADING -> {
                     showLoadingDialog("Logging in...")
                 }
-                Resource.Status.ERROR -> error("Error")
+                Resource.Status.ERROR -> {
+                    hideLoadingDialog()
+                    toast(it.message!!)
+                }
                 Resource.Status.SUCCESS -> {
                     hideLoadingDialog()
                     toast("Logged in!")
+                    MainActivity.start(this)
+                    finish()
                 }
             }
         })

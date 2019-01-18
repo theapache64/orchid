@@ -10,11 +10,11 @@ import com.tp.orchid.data.remote.base.BaseApiResponse
 class LogInResponse(error: Boolean, message: String, data: Data) :
     BaseApiResponse<LogInResponse.Data>(error, message, data) {
 
-    class Data(
+    data class Data(
         @SerializedName("user") val user: User
     )
 
-    class User(
+    data class User(
         @SerializedName("name") val name: String,
         @SerializedName("api_key") val apiKey: String
     ) {
