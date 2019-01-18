@@ -11,7 +11,7 @@ import dagger.Provides
 class UserModule {
 
     @Provides
-    fun provideUser(sharedPreferences: SharedPreferences, gson: Gson): Resource<LogInResponse.User> {
+    fun provideUser(sharedPreferences: SharedPreferences, gson: Gson): LogInResponse.User? {
 
         // getting json user string from pref
         val userJson: String? = sharedPreferences.getString(LogInResponse.User.KEY, null)
@@ -19,11 +19,9 @@ class UserModule {
         if (userJson != null) {
             // converting JSON to Model
             user = gson.fromJson(userJson, LogInResponse.User::class.java)
-        } else {
-            Resource.error("User not logged in", null)
         }
 
-        return Resource.success(user)
+        return user
     }
 }
 

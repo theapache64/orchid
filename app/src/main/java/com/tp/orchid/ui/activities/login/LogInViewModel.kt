@@ -6,13 +6,12 @@ import androidx.lifecycle.*
 import com.google.gson.Gson
 import com.tp.orchid.data.remote.login.LogInRequest
 import com.tp.orchid.data.remote.login.LogInResponse
-import com.tp.orchid.data.repositories.LogInRepository
+import com.tp.orchid.data.repositories.UserRepository
 import com.tp.orchid.utils.Resource
-import com.tp.orchid.utils.extensions.info
 import javax.inject.Inject
 
 class LogInViewModel @Inject constructor(
-    private val logInRepository: LogInRepository,
+    private val userRepository: UserRepository,
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson
 ) : ViewModel() {
@@ -22,7 +21,7 @@ class LogInViewModel @Inject constructor(
 
     private val loginRequestLiveData = MutableLiveData<LogInRequest>()
     private val loginResponseLiveData = Transformations.switchMap(loginRequestLiveData) {
-        logInRepository.login(it)
+        userRepository.login(it)
     }
 
     private val loginMerger = MediatorLiveData<Resource<LogInResponse>>()

@@ -11,6 +11,8 @@ open class BaseAppCompatActivity : AppCompatActivity() {
     var progressDialog: ProgressDialog? = null
 
     fun showLoadingDialog(message: String) {
+        hideLoadingDialog()
+
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage(message)
         progressDialog.isIndeterminate = true

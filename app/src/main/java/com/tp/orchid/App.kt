@@ -13,7 +13,7 @@ import javax.inject.Inject
 class App : Application(), HasActivityInjector {
 
     companion object {
-        const val BASE_URL = "http://theapache64.com/mock_api/get_json/orchid/"
+        const val BASE_URL = "http://www.omdbapi.com/"
     }
 
     @Inject
@@ -25,9 +25,9 @@ class App : Application(), HasActivityInjector {
         super.onCreate()
 
         DaggerAppComponent.builder()
-                .contextModule(ContextModule(this))
-                .networkModule(NetworkModule(BASE_URL))
-                .build()
-                .inject(this)
+            .contextModule(ContextModule(this))
+            .networkModule(NetworkModule(BASE_URL))
+            .build()
+            .inject(this)
     }
 }

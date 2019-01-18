@@ -3,6 +3,7 @@ package com.tp.orchid.ui.activities.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
@@ -11,6 +12,9 @@ import com.tp.orchid.databinding.ActivityMainBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
+import com.tp.orchid.utils.extensions.debug
+import com.tp.orchid.utils.extensions.info
+import com.tp.orchid.utils.extensions.error
 import com.tp.orchid.utils.extensions.toast
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,8 +25,8 @@ class MainActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory;
 
-    @Inject
-    lateinit var user: Resource<LogInResponse.User>;
+    @set:Inject
+    var user: LogInResponse.User? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -35,8 +39,17 @@ class MainActivity : BaseAppCompatActivity() {
 
         binding.viewModel = viewModel
 
-        toast("$user")
-
+        // Watching for movie response
+        viewModel.getSearchResponse().observe(this, Observer {
+            when (it.status) {
+                Resource.Status.LOADING -> debug("Loading...")
+                Resource.Status.SUCCESS -> info("Success : ${it.data!!.search}")
+                Resource.Status.ERROR -> {
+                    error("Error")
+                    toast(it.message!!)
+                }
+            }
+        })
     }
 
     companion object {
