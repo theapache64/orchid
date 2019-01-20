@@ -1,5 +1,7 @@
 package com.tp.orchid.di.modules
 
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.tp.orchid.data.remote.ApiInterface
 import com.tp.orchid.data.remote.login.LogInResponse
 import dagger.Module
@@ -26,7 +28,7 @@ class NetworkModule(private val baseUrl: String) {
     @Provides
     fun provideInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY)
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     // Client
@@ -34,8 +36,9 @@ class NetworkModule(private val baseUrl: String) {
     @Provides
     fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build()
+            .addInterceptor(interceptor)
+            .addInterceptor(StethoInterceptor())
+            .build()
     }
 
     // Retrofit
@@ -43,11 +46,11 @@ class NetworkModule(private val baseUrl: String) {
     @Provides
     fun provideRetrofit(okHttlClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(this.baseUrl)
-                .client(okHttlClient)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(this.baseUrl)
+            .client(okHttlClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
 }

@@ -24,8 +24,8 @@ android {
         }
     }
 
-    dataBinding{
-        enabled =true
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -41,6 +41,13 @@ dependencies {
 
     // Lifecycle extension
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+
+    // Room
+    def roomVersion = '2.1.0-alpha03'
+
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion" // use kapt for Kotlin
 
     // Dagger 2
     def daggerVersion = '2.17'
@@ -67,6 +74,10 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
+
+    // Stetho
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
     // Test
     // TODO : Unit testing should be done at least at minimum level.

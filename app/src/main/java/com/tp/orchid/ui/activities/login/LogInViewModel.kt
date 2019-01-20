@@ -20,8 +20,8 @@ class LogInViewModel @Inject constructor(
     var password: String = ""
 
     private val loginRequestLiveData = MutableLiveData<LogInRequest>()
-    private val loginResponseLiveData = Transformations.switchMap(loginRequestLiveData) {
-        userRepository.login(it)
+    private val loginResponseLiveData = Transformations.switchMap(loginRequestLiveData) { logInRequest ->
+        userRepository.login(logInRequest)
     }
 
     private val loginMerger = MediatorLiveData<Resource<LogInResponse>>()

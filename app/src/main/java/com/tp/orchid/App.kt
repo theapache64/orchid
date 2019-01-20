@@ -2,7 +2,9 @@ package com.tp.orchid
 
 import android.app.Activity
 import android.app.Application
+import com.facebook.stetho.Stetho
 import com.tp.orchid.di.components.DaggerAppComponent
+import com.tp.orchid.di.modules.AppModule
 import com.tp.orchid.di.modules.ContextModule
 import com.tp.orchid.di.modules.NetworkModule
 import dagger.android.AndroidInjector
@@ -25,9 +27,12 @@ class App : Application(), HasActivityInjector {
         super.onCreate()
 
         DaggerAppComponent.builder()
+            .appModule(AppModule(this))
             .contextModule(ContextModule(this))
             .networkModule(NetworkModule(BASE_URL))
             .build()
             .inject(this)
+
+        Stetho.initializeWithDefaults(this)
     }
 }
