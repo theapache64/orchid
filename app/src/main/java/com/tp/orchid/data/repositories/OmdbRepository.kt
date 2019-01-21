@@ -18,6 +18,7 @@ import io.reactivex.MaybeObserver
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
@@ -125,6 +126,7 @@ class OmdbRepository @Inject constructor(
 
                 movies
             }
+
             .subscribe { movies ->
                 response.postValue(
 
