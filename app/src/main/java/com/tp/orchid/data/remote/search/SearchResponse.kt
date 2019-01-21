@@ -1,11 +1,11 @@
 package com.tp.orchid.data.remote.search
 
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
+import com.tp.orchid.data.local.entities.SearchHistory
 import com.your.packagename.api.responses.BaseOmdbApiResponse
+import java.util.*
 
 /**
  * Generated using MockAPI (https://github.com/theapache64/Mock-API) : Fri Jan 18 10:57:12 UTC 2019
@@ -16,11 +16,17 @@ class SearchResponse(
     error: String, response: Boolean
 ) : BaseOmdbApiResponse(error, response) {
 
-    @Entity(tableName = "movies")
+    @Entity(
+        tableName = "movies",
+        indices = [
+            Index("imdb_id", unique = true)
+        ]
+    )
     class Movie(
 
         @PrimaryKey(autoGenerate = true)
-        val id: Int,
+        @ColumnInfo(name = "id")
+        val id: Long,
 
         @ColumnInfo(name = "type")
         @SerializedName("Type")
@@ -40,6 +46,9 @@ class SearchResponse(
 
         @ColumnInfo(name = "poster_url")
         @SerializedName("Poster")
-        val poster: String
+        val poster: String,
+
+        @ColumnInfo(name = "created_at")
+        val createdAt: Date
     )
 }

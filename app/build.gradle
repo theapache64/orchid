@@ -48,6 +48,7 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion" // use kapt for Kotlin
+    implementation "androidx.room:room-rxjava2:$roomVersion"
 
     // Dagger 2
     def daggerVersion = '2.17'
