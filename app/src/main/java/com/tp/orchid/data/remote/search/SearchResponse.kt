@@ -3,8 +3,7 @@ package com.tp.orchid.data.remote.search
 
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
-import com.tp.orchid.data.local.entities.SearchHistory
-import com.your.packagename.api.responses.BaseOmdbApiResponse
+import com.tp.orchid.data.remote.base.BaseOmdbApiResponse
 import java.util.*
 
 /**
@@ -13,7 +12,7 @@ import java.util.*
 class SearchResponse(
     @SerializedName("Search") val movies: List<Movie>,
     @SerializedName("totalResults") val totalResults: Int,
-    error: String, response: Boolean
+    error: String?, response: Boolean
 ) : BaseOmdbApiResponse(error, response) {
 
     @Entity(
@@ -38,7 +37,7 @@ class SearchResponse(
 
         @ColumnInfo(name = "title")
         @SerializedName("Title")
-        val title: String,
+        var title: String,
 
         @ColumnInfo(name = "imdb_id")
         @SerializedName("imdbID")
@@ -49,6 +48,6 @@ class SearchResponse(
         val poster: String,
 
         @ColumnInfo(name = "created_at")
-        val createdAt: Date
+        var createdAt: Date = Date()
     )
 }

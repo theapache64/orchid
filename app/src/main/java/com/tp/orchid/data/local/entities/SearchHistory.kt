@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 @Entity(tableName = "search_histories")
@@ -27,7 +28,14 @@ class SearchHistory(
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date()
 ) {
+
+    companion object {
+        // 1 day
+        val SEARCH_HISTORY_AGE = TimeUnit.DAYS.toMillis(1)
+    }
+
     fun isExpired(): Boolean {
-        return false
+        val millisToExpire = System.currentTimeMillis() - createdAt.time
+        return millisToExpire > SEARCH_HISTORY_AGE
     }
 }

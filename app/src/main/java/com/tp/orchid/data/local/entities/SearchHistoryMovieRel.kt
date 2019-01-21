@@ -12,21 +12,25 @@ import java.util.*
         ForeignKey(
             entity = SearchHistory::class,
             parentColumns = ["id"],
-            childColumns = ["search_history_id"]
+            childColumns = ["search_history_id"],
+            onUpdate = ForeignKey.CASCADE,
+            onDelete = ForeignKey.CASCADE
         ),
 
         // movie_id
         ForeignKey(
             entity = SearchResponse.Movie::class,
             parentColumns = ["id"],
-            childColumns = ["movie_id"]
+            childColumns = ["movie_id"],
+            onUpdate = ForeignKey.CASCADE,
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
 class SearchHistoryMovieRel(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Long,
+    val id: Long?,
 
     @ColumnInfo(name = "search_history_id")
     val searchHistoryId: Long,
@@ -35,5 +39,5 @@ class SearchHistoryMovieRel(
     val movieId: Long,
 
     @ColumnInfo(name = "created_at")
-    val createdAt: Date
+    val createdAt: Date = Date()
 )

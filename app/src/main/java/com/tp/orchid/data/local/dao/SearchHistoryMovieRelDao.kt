@@ -4,6 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.tp.orchid.data.local.entities.SearchHistoryMovieRel
+import com.tp.orchid.data.remote.search.SearchResponse
+import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface SearchHistoryMovieRelDao {
@@ -20,5 +23,5 @@ interface SearchHistoryMovieRelDao {
                 INNER JOIN search_histories sh  ON sh.id = shmr.search_history_id
                 WHERE sh.keyword = :keyword AND sh.page = :page"""
     )
-    fun findMovies(keyword: String, page: Int)
+    fun findMovies(keyword: String, page: Int): Observable<List<SearchResponse.Movie>>
 }
