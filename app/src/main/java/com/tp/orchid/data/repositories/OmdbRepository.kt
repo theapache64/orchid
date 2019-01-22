@@ -10,14 +10,13 @@ import com.tp.orchid.data.local.entities.SearchHistoryMovieRel
 import com.tp.orchid.data.remote.ApiInterface
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.utils.Resource
-import com.tp.orchid.utils.extensions.debug
-import com.tp.orchid.utils.extensions.error
 import com.tp.orchid.utils.extensions.info
 import io.reactivex.Completable
-import io.reactivex.MaybeObserver
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import java.util.*
@@ -32,12 +31,22 @@ class OmdbRepository @Inject constructor(
     val searchHistoryMovieRelDao: SearchHistoryMovieRelDao
 ) {
 
+    private val compositeDisposable = CompositeDisposable()
+
+    private lateinit var keyword: String
+    private var page: Int = 0
+    private lateinit var response: MutableLiveData<Resource<SearchResponse>>
+
+
     /**
      * Search for movies with given keyword
      */
     fun search(keyword: String, page: Int): LiveData<Resource<SearchResponse>> {
 
-        val response = MutableLiveData<Resource<SearchResponse>>()
+        this.keyword = keyword
+        this.page = page
+        this.response = MutableLiveData()
+
 
         // Checking cache
         searchHistoryDao.findSearchHistory(keyword, page)
@@ -45,41 +54,37 @@ class OmdbRepository @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onComplete = {
-                    searchWithNetwork(response, page, keyword)
+                    searchWithNetwork()
                 },
                 onSuccess = { searchHistory ->
-                    manageCache(searchHistory, response, page, keyword)
+                    manageCache(searchHistory)
                 }
-            )
+            ).addTo(compositeDisposable)
 
         return response
     }
 
-    private fun manageCache(
-        searchHistory: SearchHistory,
-        response: MutableLiveData<Resource<SearchResponse>>,
-        page: Int,
-        keyword: String
-    ) {
+    /**
+     * Load data from cache
+     */
+    private fun manageCache(searchHistory: SearchHistory) {
         if (searchHistory.isExpired()) {
             // delete cache
-            deleteCacheAndSearchWithNetwork(searchHistory, response, page, keyword)
+            deleteCacheAndSearchWithNetwork(searchHistory)
         } else {
             // not expired
             if (!searchHistory.isFailure) {
-                searchWithCache(response, page, keyword)
+                searchWithCache()
             } else {
                 response.value = Resource.error("Cache Says: ${searchHistory.failureReason}")
             }
         }
     }
 
-    private fun deleteCacheAndSearchWithNetwork(
-        searchHistory: SearchHistory,
-        response: MutableLiveData<Resource<SearchResponse>>,
-        page: Int,
-        keyword: String
-    ) {
+    /**
+     * Deletes cache and then search with network
+     */
+    private fun deleteCacheAndSearchWithNetwork(searchHistory: SearchHistory) {
         Completable
             .fromAction {
                 searchHistoryDao.delete(searchHistory)
@@ -88,12 +93,12 @@ class OmdbRepository @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onComplete = {
-                    searchWithNetwork(response, page, keyword)
+                    searchWithNetwork()
                 }
-            )
+            ).addTo(compositeDisposable)
     }
 
-    private fun searchWithCache(response: MutableLiveData<Resource<SearchResponse>>, page: Int, keyword: String) {
+    private fun searchWithCache() {
         searchHistoryMovieRelDao.findMovies(keyword, page)
             .subscribeOn(Schedulers.io())
             .map { movies ->
@@ -112,14 +117,10 @@ class OmdbRepository @Inject constructor(
                         )
                     )
                 }
-            )
+            ).addTo(compositeDisposable)
     }
 
-    private fun searchWithNetwork(
-        response: MutableLiveData<Resource<SearchResponse>>,
-        page: Int,
-        keyword: String
-    ) {
+    private fun searchWithNetwork() {
         // No cache, do network here
         info("Getting from network")
         val observer = getNetworkSearchObserver(response, page, keyword)
@@ -215,6 +216,8 @@ class OmdbRepository @Inject constructor(
 
             override fun onSubscribe(d: Disposable) {
                 response.value = Resource.loading()
+
+                d.addTo(compositeDisposable)
             }
 
             override fun onError(e: Throwable) {
@@ -238,6 +241,12 @@ class OmdbRepository @Inject constructor(
         )
             .subscribeOn(Schedulers.io())
             .subscribe()
+            .addTo(compositeDisposable)
+    }
+
+    fun onCleared() {
+        // Clearing disposables
+        compositeDisposable.clear()
     }
 
 }

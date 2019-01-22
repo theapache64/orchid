@@ -10,7 +10,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Named
 
-class MainViewModel @Inject constructor(omdbRepository: OmdbRepository) : ViewModel() {
+class MainViewModel @Inject constructor(val omdbRepository: OmdbRepository) : ViewModel() {
 
     val keyword = MutableLiveData<String>();
     val message = ObservableField<String>("Welcome!");
@@ -42,4 +42,10 @@ class MainViewModel @Inject constructor(omdbRepository: OmdbRepository) : ViewMo
     }
 
     fun getSearchResponse(): LiveData<Resource<SearchResponse>> = searchMerger
+
+    override fun onCleared() {
+        super.onCleared()
+
+        omdbRepository.onCleared()
+    }
 }
