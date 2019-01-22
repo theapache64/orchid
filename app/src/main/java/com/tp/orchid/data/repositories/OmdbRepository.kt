@@ -43,37 +43,16 @@ class OmdbRepository @Inject constructor(
         searchHistoryDao.findSearchHistory(keyword, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(getFindSearchHistoryObserver(response, page, keyword))
+            .subscribeBy(
+                onComplete = {
+                    searchWithNetwork(response, page, keyword)
+                },
+                onSuccess = { searchHistory ->
+                    manageCache(searchHistory, response, page, keyword)
+                }
+            )
 
         return response
-    }
-
-    private fun getFindSearchHistoryObserver(
-        response: MutableLiveData<Resource<SearchResponse>>,
-        page: Int,
-        keyword: String
-    ): MaybeObserver<SearchHistory?> {
-
-        return object : MaybeObserver<SearchHistory?> {
-            override fun onComplete() {
-                // no cache
-                searchWithNetwork(response, page, keyword)
-            }
-
-            override fun onSubscribe(d: Disposable) {
-
-            }
-
-            override fun onError(e: Throwable) {
-                e.printStackTrace()
-            }
-
-
-            override fun onSuccess(searchHistory: SearchHistory) {
-                // has cache
-                manageCache(searchHistory, response, page, keyword)
-            }
-        }
     }
 
     private fun manageCache(
@@ -107,34 +86,33 @@ class OmdbRepository @Inject constructor(
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                searchWithNetwork(response, page, keyword)
-            }
+            .subscribeBy(
+                onComplete = {
+                    searchWithNetwork(response, page, keyword)
+                }
+            )
     }
 
     private fun searchWithCache(response: MutableLiveData<Resource<SearchResponse>>, page: Int, keyword: String) {
         searchHistoryMovieRelDao.findMovies(keyword, page)
             .subscribeOn(Schedulers.io())
             .map { movies ->
-
                 movies.map { movie ->
-
-                    movie.title = "CACHE : ${movie.title}"
+                    movie.title = "C:${movie.title}"
                     movie
-
                 }
-
-                movies
             }
 
-            .subscribe { movies ->
-                response.postValue(
+            .subscribeBy(
+                onNext = { movies ->
+                    response.postValue(
 
-                    Resource.success(
-                        SearchResponse(movies, 10, null, true)
+                        Resource.success(
+                            SearchResponse(movies, 10, null, true)
+                        )
                     )
-                )
-            }
+                }
+            )
     }
 
     private fun searchWithNetwork(
@@ -168,18 +146,18 @@ class OmdbRepository @Inject constructor(
                 if (t.response) {
 
                     // Add search history
-                    searchHistoryDao.insert(
-                        SearchHistory(
-                            null,
-                            keyword,
-                            page,
-                            false,
-                            null
+                    searchHistoryDao
+                        .insert(
+                            SearchHistory(
+                                null,
+                                keyword,
+                                page,
+                                false,
+                                null
+                            )
                         )
-                    ).subscribeOn(Schedulers.io())
-                        .subscribe { searchHistoryId ->
-
-                            println("Search history added with $searchHistoryId")
+                        .subscribeOn(Schedulers.io())
+                        .subscribeBy(onSuccess = { searchHistoryId ->
 
                             // Adding each movie
                             t.movies.forEach { movie ->
@@ -189,69 +167,44 @@ class OmdbRepository @Inject constructor(
                                 // checking if the movie already exist
                                 movieDao.findMovieByImdbId(movie.imdbId)
                                     .subscribeOn(Schedulers.io())
-                                    .subscribe(object : MaybeObserver<SearchResponse.Movie> {
-                                        override fun onSuccess(t: SearchResponse.Movie) {
-                                            // has movie
-                                            println("Movie already exist : ${t.title}")
+                                    .subscribeBy(
+                                        onSuccess = {
                                             searchHistoryMovieRelDao.insert(
                                                 SearchHistoryMovieRel(
                                                     null,
                                                     searchHistoryId,
-                                                    t.id
+                                                    it.id
                                                 )
                                             )
-
-                                        }
-
-                                        override fun onComplete() {
-
+                                        },
+                                        onComplete = {
                                             // movie not found, so adding new movie to the db
                                             movieDao.insert(movie)
-                                                .subscribe(object : SingleObserver<Long> {
-                                                    override fun onSuccess(movieId: Long) {
-
+                                                .subscribeBy(
+                                                    onSuccess = {
                                                         // Movie added , add the relation also
                                                         searchHistoryMovieRelDao.insert(
                                                             SearchHistoryMovieRel(
                                                                 null,
                                                                 searchHistoryId,
-                                                                movieId
+                                                                it
                                                             )
                                                         )
-
                                                     }
-
-                                                    override fun onSubscribe(d: Disposable) {
-                                                    }
-
-                                                    override fun onError(e: Throwable) {
-                                                        e.printStackTrace()
-                                                    }
-                                                })
+                                                )
                                         }
-
-                                        override fun onSubscribe(d: Disposable) {
-
-                                        }
-
-                                        override fun onError(e: Throwable) {
-                                            e.printStackTrace()
-                                        }
-                                    })
+                                    )
 
                             }
-
-                        }
+                        })
 
 
                     // success
                     response.value = Resource.success(t)
 
-
                 } else {
 
                     val errorMessage = "${t.error} ${keyword}"
-
                     addSearchHistoryWithFailure(keyword, page, errorMessage)
 
                     // error
@@ -284,19 +237,7 @@ class OmdbRepository @Inject constructor(
             )
         )
             .subscribeOn(Schedulers.io())
-            .subscribe(object : SingleObserver<Long> {
-                override fun onSuccess(t: Long) {
-                    info("Search history with failure added")
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                    debug("Adding search history with failure... :(")
-                }
-
-                override fun onError(e: Throwable) {
-                    error("Search history failed to add")
-                }
-            })
+            .subscribe()
     }
 
 }

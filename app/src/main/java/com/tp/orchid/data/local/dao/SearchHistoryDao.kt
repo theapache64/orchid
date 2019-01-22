@@ -19,5 +19,5 @@ interface SearchHistoryDao {
     fun delete(searchHistory: SearchHistory)
 
     @Query("SELECT * FROM search_histories WHERE keyword=:keyword AND page=:page")
-    fun findSearchHistory(keyword: String, page: Int): Maybe<SearchHistory?>
+    fun findSearchHistory(keyword: String, page: Int): Maybe<SearchHistory>
 }
