@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity(
     tableName = "search_histories_movies_rel",
-    indices = [Index("movie_id", "search_history_id")],
+    indices = [Index(value = ["movie_id", "search_history_id"], unique = true)],
     foreignKeys = [
         // search_history_id
         ForeignKey(
@@ -28,10 +28,6 @@ import java.util.*
     ]
 )
 class SearchHistoryMovieRel(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Long?,
-
     @ColumnInfo(name = "search_history_id")
     val searchHistoryId: Long,
 
@@ -40,4 +36,8 @@ class SearchHistoryMovieRel(
 
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date()
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Long = 0
+}

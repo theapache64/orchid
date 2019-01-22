@@ -148,7 +148,6 @@ class MovieSearchManager(
                     searchHistoryDao
                         .insert(
                             SearchHistory(
-                                null,
                                 keyword,
                                 page,
                                 false,
@@ -171,7 +170,6 @@ class MovieSearchManager(
                                             onSuccess = {
                                                 searchHistoryMovieRelDao.insert(
                                                     SearchHistoryMovieRel(
-                                                        null,
                                                         searchHistoryId,
                                                         it.id
                                                     )
@@ -185,7 +183,6 @@ class MovieSearchManager(
                                                             // Movie added , add the relation also
                                                             searchHistoryMovieRelDao.insert(
                                                                 SearchHistoryMovieRel(
-                                                                    null,
                                                                     searchHistoryId,
                                                                     it
                                                                 )
@@ -231,7 +228,6 @@ class MovieSearchManager(
 
         searchHistoryDao.insert(
             SearchHistory(
-                null,
                 keyword,
                 page,
                 true,

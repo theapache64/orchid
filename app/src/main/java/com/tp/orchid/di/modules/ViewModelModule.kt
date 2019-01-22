@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.tp.orchid.ui.activities.login.LogInViewModel
 import com.tp.orchid.ui.activities.main.MainViewModel
+import com.tp.orchid.ui.activities.movie.MovieViewModel
 import com.tp.orchid.ui.activities.splash.SplashViewModel
 import com.tp.orchid.utils.viewmodel.ViewModelFactory
 import com.tp.orchid.utils.viewmodel.ViewModelKey
@@ -33,4 +34,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LogInViewModel::class)
     abstract fun bindLogInViewModel(viewModel: LogInViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieViewModel::class)
+    abstract fun bindMovieViewModel(viewModel: MovieViewModel): ViewModel
 }

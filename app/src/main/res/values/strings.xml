@@ -6,4 +6,5 @@
     <string name="action_login">LogIn</string>
     <string name="hint_search">Search</string>
     <string name="title_logout">Logout</string>
+    <string name="title_activity_movie">MovieActivity</string>
 </resources>

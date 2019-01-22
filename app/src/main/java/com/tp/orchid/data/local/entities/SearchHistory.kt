@@ -2,17 +2,17 @@ package com.tp.orchid.data.local.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 
-@Entity(tableName = "search_histories")
+@Entity(
+    tableName = "search_histories",
+    indices = [Index(value = ["id"])]
+)
 class SearchHistory(
-
-    @PrimaryKey(autoGenerate = true)
-    val id: Long?,
-
     @ColumnInfo(name = "keyword")
     val keyword: String,
 
@@ -28,6 +28,10 @@ class SearchHistory(
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date()
 ) {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Long = 0
 
     companion object {
         // 1 day

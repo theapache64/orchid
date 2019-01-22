@@ -2,7 +2,6 @@ package com.tp.orchid.ui.activities.base
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 @SuppressLint("Registered")
