@@ -1,9 +1,6 @@
 package com.tp.orchid.di.modules
 
-import com.facebook.stetho.Stetho
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.tp.orchid.data.remote.ApiInterface
-import com.tp.orchid.data.remote.login.LogInResponse
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -37,7 +34,6 @@ class NetworkModule(private val baseUrl: String) {
     fun provideOkHttpClient(interceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
-            .addInterceptor(StethoInterceptor())
             .build()
     }
 

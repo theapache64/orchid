@@ -79,7 +79,6 @@ dependencies {
 
     // Stetho
     implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
     // Test
     // TODO : Unit testing should be done at least at minimum level.

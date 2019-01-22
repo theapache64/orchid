@@ -26,6 +26,11 @@ class MoviesAdapter(
         notifyDataSetChanged()
     }
 
+    fun clearMovies() {
+        this.movies.clear()
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

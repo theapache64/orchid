@@ -10,7 +10,9 @@ import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Named
 
-class MainViewModel @Inject constructor(val omdbRepository: OmdbRepository) : ViewModel() {
+class MainViewModel @Inject constructor(
+    val omdbRepository: OmdbRepository
+) : ViewModel() {
 
     val keyword = MutableLiveData<String>();
     val message = ObservableField<String>("Welcome!");
@@ -47,5 +49,9 @@ class MainViewModel @Inject constructor(val omdbRepository: OmdbRepository) : Vi
         super.onCleared()
 
         omdbRepository.onCleared()
+    }
+
+    fun logout() {
+
     }
 }
