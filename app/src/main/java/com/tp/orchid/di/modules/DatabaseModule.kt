@@ -41,12 +41,4 @@ class DatabaseModule {
     fun provideMovieDetailsDao(appDatabase: AppDatabase): MovieDetailsDao {
         return appDatabase.movieDetailsDao()
     }
-
-
-    @Singleton
-    @Provides
-    fun provideAnotherDao(appDatabase: AppDatabase): AnotherDao {
-        return appDatabase.anotherDao()
-    }
-
 }

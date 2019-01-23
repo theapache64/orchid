@@ -30,5 +30,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun searchHistoryDao(): SearchHistoryDao
     abstract fun searchHistoryMovieRelDao(): SearchHistoryMovieRelDao
     abstract fun movieDetailsDao(): MovieDetailsDao
-    abstract fun anotherDao(): AnotherDao
 }

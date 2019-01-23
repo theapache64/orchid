@@ -28,12 +28,3 @@ interface SearchHistoryMovieRelDao {
     fun getMovies(keyword: String, page: Int): LiveData<List<SearchResponse.Movie>>
 }
 
-data class SearchHistoryWithSearchHistoryMovieRel(
-
-
-    @Embedded
-    var searchHistory: SearchHistory,
-
-    @Relation(parentColumn = "sh_id", entityColumn = "mv_id")
-    var movies: List<SearchResponse.Movie>
-)

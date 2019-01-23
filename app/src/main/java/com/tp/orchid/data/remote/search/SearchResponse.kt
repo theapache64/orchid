@@ -1,7 +1,11 @@
 package com.tp.orchid.data.remote.search
 
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.tp.orchid.data.remote.base.BaseOmdbApiResponse
 import java.io.Serializable
@@ -46,11 +50,13 @@ class SearchResponse(
 
         @ColumnInfo(name = "mv_poster_url")
         @SerializedName("Poster")
-        val poster: String,
+        val poster: String
+
+    ) : Serializable {
 
         @ColumnInfo(name = "mv_created_at")
         var createdAt: Date = Date()
-    ) : Serializable {
+
         companion object {
             const val KEY = "Movie"
         }

@@ -11,6 +11,6 @@ class GsonModule {
     @Singleton
     @Provides
     fun provideGson(): Gson {
-        return GsonBuilder().create()
+        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
     }
 }

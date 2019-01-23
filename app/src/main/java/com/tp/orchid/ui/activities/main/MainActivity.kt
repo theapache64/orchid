@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
-import com.tp.orchid.data.local.dao.AnotherDao
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityMainBinding
@@ -21,16 +20,10 @@ import com.tp.orchid.ui.activities.movie.MovieActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
-import com.tp.orchid.utils.extensions.debug
 import com.tp.orchid.utils.extensions.info
 import com.tp.orchid.utils.extensions.error
-import com.tp.orchid.utils.extensions.toast
 import dagger.android.AndroidInjection
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainActivity : BaseAppCompatActivity() {
@@ -40,9 +33,6 @@ class MainActivity : BaseAppCompatActivity() {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences;
-
-    @Inject
-    lateinit var anotherDao: AnotherDao
 
     @set:Inject
     var user: LogInResponse.User? = null;
@@ -78,7 +68,7 @@ class MainActivity : BaseAppCompatActivity() {
                 Resource.Status.SUCCESS -> {
                     info("Success :")
                     if (response.data != null) {
-                        adapter.setMovies(response.data.movies)
+                        adapter.setMovies(response.data)
                     }
                 }
                 Resource.Status.ERROR -> {
