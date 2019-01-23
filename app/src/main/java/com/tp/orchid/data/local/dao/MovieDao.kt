@@ -11,9 +11,9 @@ import io.reactivex.Single
 interface MovieDao {
 
     @Insert
-    fun insert(movie: SearchResponse.Movie): Single<Long>
+    fun insert(movie: SearchResponse.Movie): Long
 
     @Query("SELECT * FROM movies WHERE imdb_id=:imdbId")
-    fun findMovieByImdbId(imdbId: String): Maybe<SearchResponse.Movie>
+    fun findMovieByImdbId(imdbId: String): SearchResponse.Movie?
 
 }

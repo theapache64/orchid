@@ -16,7 +16,7 @@ interface ApiInterface {
     fun logIn(@Body logInRequest: LogInRequest): Single<LogInResponse>
 
     @GET("?&apiKey=75a9f74")
-    fun search(@Query("s") keyword: String, @Query("page") page: Int): Single<SearchResponse>
+    fun search(@Query("s") keyword: String, @Query("page") page: Int): LiveData<ApiResponse<SearchResponse>>
 
     @GET("?&apiKey=75a9f74&plot=full")
     fun getMovie(@Query("i") imdbId: String): LiveData<ApiResponse<GetMovieResponse>>

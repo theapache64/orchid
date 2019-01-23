@@ -23,6 +23,10 @@ class Resource<T> private constructor(
         fun <T> loading(data: T? = null): Resource<T> {
             return Resource(Status.LOADING, data, null)
         }
+
+        fun <T> create(status: Status, data: T?, message: String?): Resource<T> {
+            return Resource(status, data, message)
+        }
     }
 }
 

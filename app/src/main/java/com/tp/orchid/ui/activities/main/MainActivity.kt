@@ -72,7 +72,9 @@ class MainActivity : BaseAppCompatActivity() {
                 }
                 Resource.Status.SUCCESS -> {
                     info("Success :")
-                    adapter.setMovies(response.data!!.movies)
+                    if (response.data != null) {
+                        adapter.setMovies(response.data)
+                    }
                 }
                 Resource.Status.ERROR -> {
                     error("Error")

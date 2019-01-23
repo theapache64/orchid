@@ -3,10 +3,7 @@ package com.tp.orchid.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.tp.orchid.data.local.dao.MovieDao
-import com.tp.orchid.data.local.dao.MovieDetailsDao
-import com.tp.orchid.data.local.dao.SearchHistoryDao
-import com.tp.orchid.data.local.dao.SearchHistoryMovieRelDao
+import com.tp.orchid.data.local.dao.*
 import com.tp.orchid.data.local.entities.SearchHistory
 import com.tp.orchid.data.local.entities.SearchHistoryMovieRel
 import com.tp.orchid.data.local.typeconverters.DateConverter
@@ -33,4 +30,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun searchHistoryDao(): SearchHistoryDao
     abstract fun searchHistoryMovieRelDao(): SearchHistoryMovieRelDao
     abstract fun movieDetailsDao(): MovieDetailsDao
+    abstract fun anotherDao(): AnotherDao
 }

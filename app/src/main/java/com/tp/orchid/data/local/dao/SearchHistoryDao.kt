@@ -12,11 +12,10 @@ import io.reactivex.Single
 interface SearchHistoryDao {
 
     @Insert
-    fun insert(searchHistory: SearchHistory): Single<Long>
+    fun insert(searchHistory: SearchHistory): Long
 
     @Delete
     fun delete(searchHistory: SearchHistory)
 
-    @Query("SELECT * FROM search_histories WHERE keyword=:keyword AND page=:page")
-    fun findSearchHistory(keyword: String, page: Int): Maybe<SearchHistory>
+
 }

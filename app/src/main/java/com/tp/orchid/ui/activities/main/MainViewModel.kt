@@ -27,31 +27,19 @@ class MainViewModel @Inject constructor(
         omdbRepository.search(keyword, 1)
     }
 
-    val searchMerger = MediatorLiveData<Resource<SearchResponse>>()
+    val searchMerger = MediatorLiveData<Resource<List<SearchResponse.Movie>>>()
 
     init {
-
 
         searchMerger.addSource(searchResponse) {
             when (it.status) {
                 Resource.Status.LOADING -> message.set("Searching '${keyword.value}'")
-                Resource.Status.SUCCESS -> message.set("Found ${it.data!!.movies.size} movies")
+                Resource.Status.SUCCESS -> message.set("Found ${it.data!!.size} movies")
                 Resource.Status.ERROR -> message.set("${it.message}")
             }
             searchMerger.value = it
-
         }
     }
 
-    fun getSearchResponse(): LiveData<Resource<SearchResponse>> = searchMerger
-
-    override fun onCleared() {
-        super.onCleared()
-
-        omdbRepository.onCleared()
-    }
-
-    fun logout() {
-
-    }
+    fun getSearchResponse(): LiveData<Resource<List<SearchResponse.Movie>>> = searchMerger
 }

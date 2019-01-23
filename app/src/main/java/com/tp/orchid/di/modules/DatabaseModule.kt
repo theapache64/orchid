@@ -3,10 +3,7 @@ package com.tp.orchid.di.modules
 import android.app.Application
 import androidx.room.Room
 import com.tp.orchid.data.local.AppDatabase
-import com.tp.orchid.data.local.dao.MovieDao
-import com.tp.orchid.data.local.dao.MovieDetailsDao
-import com.tp.orchid.data.local.dao.SearchHistoryDao
-import com.tp.orchid.data.local.dao.SearchHistoryMovieRelDao
+import com.tp.orchid.data.local.dao.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -43,6 +40,13 @@ class DatabaseModule {
     @Provides
     fun provideMovieDetailsDao(appDatabase: AppDatabase): MovieDetailsDao {
         return appDatabase.movieDetailsDao()
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideAnotherDao(appDatabase: AppDatabase): AnotherDao {
+        return appDatabase.anotherDao()
     }
 
 }
