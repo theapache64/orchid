@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.tp.orchid.data.local.AppDatabase
 import com.tp.orchid.data.local.dao.MovieDao
+import com.tp.orchid.data.local.dao.MovieDetailsDao
 import com.tp.orchid.data.local.dao.SearchHistoryDao
 import com.tp.orchid.data.local.dao.SearchHistoryMovieRelDao
 import dagger.Module
@@ -36,6 +37,12 @@ class DatabaseModule {
     @Provides
     fun provideSearchHistoryMovieRelDao(appDatabase: AppDatabase): SearchHistoryMovieRelDao {
         return appDatabase.searchHistoryMovieRelDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideMovieDetailsDao(appDatabase: AppDatabase): MovieDetailsDao {
+        return appDatabase.movieDetailsDao()
     }
 
 }

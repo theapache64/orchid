@@ -10,18 +10,11 @@ import com.google.gson.annotations.SerializedName
  * Generated using MockAPI (https://github.com/theapache64/Mock-API) : Tue Jan 22 07:49:00 UTC 2019
  */
 @Entity(tableName = "movie_details")
-class GetMovieResponse(
-
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Long,
-
-    @ColumnInfo(name = "movie_id")
-    val movieId: Long,
+data class GetMovieResponse(
 
     @ColumnInfo(name = "dvd")
     @SerializedName("DVD")
-    val dvd: String,
+    val dvd: String?,
 
     @ColumnInfo(name = "plot")
     @SerializedName("Plot")
@@ -95,6 +88,13 @@ class GetMovieResponse(
     @SerializedName("Production")
     val production: String
 ) {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Long = 0
+
+    @ColumnInfo(name = "movie_id")
+    var movieId: Long = 0
 
     @Ignore
     @SerializedName("Response")

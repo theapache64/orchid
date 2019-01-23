@@ -1,5 +1,6 @@
 package com.tp.orchid.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -11,5 +12,5 @@ interface MovieDetailsDao {
     fun insert(getMovieResponse: GetMovieResponse)
 
     @Query("SELECT * FROM movie_details WHERE movie_id=:movieId LIMIT 1")
-    fun getMovieDetails(movieId: String): GetMovieResponse
+    fun getMovieDetails(movieId: Long): LiveData<GetMovieResponse>
 }
