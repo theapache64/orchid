@@ -21,6 +21,8 @@ class MovieActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -40,6 +42,8 @@ class MovieActivity : BaseAppCompatActivity() {
 
         // passing viewmodel to binding
         binding.viewModel = viewModel
+
+
     }
 
     companion object {

@@ -1,6 +1,7 @@
 package com.tp.orchid.di.modules
 
 import com.tp.orchid.data.remote.ApiInterface
+import com.tp.orchid.utils.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -45,6 +46,7 @@ class NetworkModule(private val baseUrl: String) {
             .baseUrl(this.baseUrl)
             .client(okHttlClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
