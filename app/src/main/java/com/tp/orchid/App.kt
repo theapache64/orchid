@@ -42,6 +42,11 @@ class App : Application(), HasActivityInjector {
             .build()
             .inject(this)
 
-        Stetho.initializeWithDefaults(this)
+        Stetho.initialize(
+            Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build()
+        );
     }
 }

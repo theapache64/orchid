@@ -57,37 +57,6 @@ class MovieActivity : BaseAppCompatActivity() {
 
         // passing viewmodel to binding
         binding.viewModel = viewModel
-
-        val liveData = object : NetworkBoundResource<GetMovieResponse, GetMovieResponse>(appExecutors) {
-            override fun saveCallResult(item: GetMovieResponse) {
-                println("MainActivity: Saving call result")
-                item.movieId = movie.id
-                movieDetailsDao.insert(item)
-                println("MainActivity: Call result saved")
-            }
-
-            override fun shouldFetch(data: GetMovieResponse?): Boolean {
-                info("Should fetch is ${data == null}")
-                return data == null
-            }
-
-            override fun loadFromDb(): LiveData<GetMovieResponse> {
-                val movieDetails = movieDetailsDao.getMovieDetails(movie.id)
-                println("MainActivity: Loaded db data is $movieDetails")
-                return movieDetails
-            }
-
-            override fun createCall(): LiveData<ApiResponse<GetMovieResponse>> {
-                println("MainActivity: Call created")
-                return apiInterface.getMovie(movie.imdbId)
-            }
-
-        }.asLiveData()
-
-        liveData.observe(this, Observer { data ->
-            println("MainActivity: Data is ${data.data}")
-        })
-
     }
 
     companion object {

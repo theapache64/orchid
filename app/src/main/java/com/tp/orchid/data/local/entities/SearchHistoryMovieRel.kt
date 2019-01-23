@@ -6,13 +6,13 @@ import java.util.*
 
 @Entity(
     tableName = "search_histories_movies_rel",
-    indices = [Index(value = ["movie_id", "search_history_id"], unique = true)],
+    indices = [Index(value = ["shmr_movie_id", "shmr_search_history_id"], unique = true)],
     foreignKeys = [
         // search_history_id
         ForeignKey(
             entity = SearchHistory::class,
-            parentColumns = ["id"],
-            childColumns = ["search_history_id"],
+            parentColumns = ["sh_id"],
+            childColumns = ["shmr_search_history_id"],
             onUpdate = ForeignKey.CASCADE,
             onDelete = ForeignKey.CASCADE
         ),
@@ -20,24 +20,24 @@ import java.util.*
         // movie_id
         ForeignKey(
             entity = SearchResponse.Movie::class,
-            parentColumns = ["id"],
-            childColumns = ["movie_id"],
+            parentColumns = ["mv_id"],
+            childColumns = ["shmr_movie_id"],
             onUpdate = ForeignKey.CASCADE,
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-class SearchHistoryMovieRel(
-    @ColumnInfo(name = "search_history_id")
+data class SearchHistoryMovieRel(
+    @ColumnInfo(name = "shmr_search_history_id")
     val searchHistoryId: Long,
 
-    @ColumnInfo(name = "movie_id")
+    @ColumnInfo(name = "shmr_movie_id")
     val movieId: Long,
 
-    @ColumnInfo(name = "created_at")
+    @ColumnInfo(name = "shmr_created_at")
     val createdAt: Date = Date()
 ) {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "shmr_id")
     var id: Long = 0
 }

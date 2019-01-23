@@ -13,25 +13,27 @@ interface SearchHistoryMovieRelDao {
     @Insert
     fun insert(searchHistoryMovieRel: SearchHistoryMovieRel);
 
-    @Query("SELECT * FROM search_histories WHERE keyword=:keyword AND page=:page")
+    @Query("SELECT * FROM search_histories WHERE sh_keyword=:keyword AND sh_page=:page")
     fun findSearchHistory(keyword: String, page: Int): SearchHistory?
 
     @Query(
         """
             SELECT
-                 m.*
+                 mv.*
                 FROM search_histories_movies_rel shmr
-                INNER JOIN movies m ON m.id = shmr.movie_id
-                INNER JOIN search_histories sh  ON sh.id = shmr.search_history_id
-                WHERE sh.keyword = :keyword AND sh.page = :page GROUP BY m.imdb_id"""
+                INNER JOIN movies mv ON mv.mv_id = shmr.shmr_movie_id
+                INNER JOIN search_histories sh  ON sh.sh_id = shmr.shmr_search_history_id
+                WHERE sh.sh_keyword = :keyword AND sh.sh_page = :page GROUP BY mv.mv_imdb_id"""
     )
     fun getMovies(keyword: String, page: Int): LiveData<List<SearchResponse.Movie>>
 }
 
-class SearchHistoryWithSearchHistoryMovieRel(
-    @Embedded
-    var searchHistoryMovieRel: SearchHistoryMovieRel,
+data class SearchHistoryWithSearchHistoryMovieRel(
 
-    @Relation(parentColumn = "movie_id", entityColumn = "id")
+
+    @Embedded
+    var searchHistory: SearchHistory,
+
+    @Relation(parentColumn = "sh_id", entityColumn = "mv_id")
     var movies: List<SearchResponse.Movie>
 )

@@ -13,7 +13,7 @@ interface MovieDao {
     @Insert
     fun insert(movie: SearchResponse.Movie): Long
 
-    @Query("SELECT * FROM movies WHERE imdb_id=:imdbId")
+    @Query("SELECT * FROM movies WHERE mv_imdb_id=:imdbId")
     fun findMovieByImdbId(imdbId: String): SearchResponse.Movie?
 
 }

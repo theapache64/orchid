@@ -1,9 +1,7 @@
 package com.tp.orchid.data.repositories
 
 import androidx.lifecycle.LiveData
-import com.tp.orchid.data.local.dao.MovieDao
-import com.tp.orchid.data.local.dao.SearchHistoryDao
-import com.tp.orchid.data.local.dao.SearchHistoryMovieRelDao
+import com.tp.orchid.data.local.dao.*
 import com.tp.orchid.data.local.entities.SearchHistory
 import com.tp.orchid.data.local.entities.SearchHistoryMovieRel
 import com.tp.orchid.data.remote.ApiInterface
@@ -22,13 +20,14 @@ class OmdbRepository @Inject constructor(
     private val apiInterface: ApiInterface,
     private val movieDao: MovieDao,
     private val searchHistoryDao: SearchHistoryDao,
-    private val searchHistoryMovieRelDao: SearchHistoryMovieRelDao
+    private val searchHistoryMovieRelDao: SearchHistoryMovieRelDao,
+    private val anotherDao: AnotherDao
 ) {
 
     /**
      * Search for movies with given keyword
      */
-    fun search(keyword: String, page: Int): LiveData<Resource<List<SearchResponse.Movie>>> {
+    /*fun search(keyword: String, page: Int): LiveData<Resource<List<SearchResponse.Movie>>> {
 
         return object :
             NetworkBoundResource<List<SearchResponse.Movie>, SearchResponse>(appExecutors) {
@@ -51,7 +50,33 @@ class OmdbRepository @Inject constructor(
 
 
         }.asLiveData()
+    }*/
+
+    fun search2(keyword: String, page: Int): LiveData<Resource<SearchHistoryWithSearchHistoryMovieRel>> {
+
+        return object :
+            NetworkBoundResource<SearchHistoryWithSearchHistoryMovieRel, SearchResponse>(appExecutors) {
+            override fun saveCallResult(item: SearchResponse) {
+                saveSearchResult(keyword, page, item)
+            }
+
+            override fun shouldFetch(data: SearchHistoryWithSearchHistoryMovieRel?): Boolean {
+                val searchHistory: SearchHistory? = data?.searchHistory
+                return data == null || searchHistory == null || searchHistory.isExpired()
+            }
+
+            override fun loadFromDb(): LiveData<SearchHistoryWithSearchHistoryMovieRel> {
+                return anotherDao.getIt(keyword, page)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<SearchResponse>> {
+                return apiInterface.search(keyword, page)
+            }
+
+
+        }.asLiveData()
     }
+
 
     private fun saveSearchResult(keyword: String, page: Int, t: SearchResponse) {
 

@@ -19,36 +19,36 @@ class SearchResponse(
     @Entity(
         tableName = "movies",
         indices = [
-            Index("imdb_id", unique = true)
+            Index("mv_imdb_id", unique = true)
         ]
     )
-    class Movie(
+    data class Movie(
 
         @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "id")
+        @ColumnInfo(name = "mv_id")
         val id: Long,
 
-        @ColumnInfo(name = "type")
+        @ColumnInfo(name = "mv_type")
         @SerializedName("Type")
         val type: String,
 
-        @ColumnInfo(name = "year")
+        @ColumnInfo(name = "mv_year")
         @SerializedName("Year")
         val year: String,
 
-        @ColumnInfo(name = "title")
+        @ColumnInfo(name = "mv_title")
         @SerializedName("Title")
         var title: String,
 
-        @ColumnInfo(name = "imdb_id")
+        @ColumnInfo(name = "mv_imdb_id")
         @SerializedName("imdbID")
         val imdbId: String,
 
-        @ColumnInfo(name = "poster_url")
+        @ColumnInfo(name = "mv_poster_url")
         @SerializedName("Poster")
         val poster: String,
 
-        @ColumnInfo(name = "created_at")
+        @ColumnInfo(name = "mv_created_at")
         var createdAt: Date = Date()
     ) : Serializable {
         companion object {

@@ -10,27 +10,27 @@ import java.util.concurrent.TimeUnit
 
 @Entity(
     tableName = "search_histories",
-    indices = [Index(value = ["id"])]
+    indices = [Index(value = ["sh_id"])]
 )
 class SearchHistory(
-    @ColumnInfo(name = "keyword")
+    @ColumnInfo(name = "sh_keyword")
     val keyword: String,
 
-    @ColumnInfo(name = "page")
+    @ColumnInfo(name = "sh_page")
     val page: Int,
 
-    @ColumnInfo(name = "is_failure")
+    @ColumnInfo(name = "sh_is_failure")
     val isFailure: Boolean,
 
-    @ColumnInfo(name = "failure_reason")
+    @ColumnInfo(name = "sh_failure_reason")
     val failureReason: String?,
 
-    @ColumnInfo(name = "created_at")
+    @ColumnInfo(name = "sh_created_at")
     val createdAt: Date = Date()
 ) {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "sh_id")
     var id: Long = 0
 
     companion object {

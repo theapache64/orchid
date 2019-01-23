@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
+import com.tp.orchid.data.local.dao.AnotherDao
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityMainBinding
@@ -40,8 +41,12 @@ class MainActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences;
 
+    @Inject
+    lateinit var anotherDao: AnotherDao
+
     @set:Inject
     var user: LogInResponse.User? = null;
+
 
     private lateinit var viewModel: MainViewModel
 
@@ -73,7 +78,7 @@ class MainActivity : BaseAppCompatActivity() {
                 Resource.Status.SUCCESS -> {
                     info("Success :")
                     if (response.data != null) {
-                        adapter.setMovies(response.data)
+                        adapter.setMovies(response.data.movies)
                     }
                 }
                 Resource.Status.ERROR -> {
