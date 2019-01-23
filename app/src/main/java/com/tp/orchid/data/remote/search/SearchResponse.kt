@@ -4,6 +4,7 @@ package com.tp.orchid.data.remote.search
 import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import com.tp.orchid.data.remote.base.BaseOmdbApiResponse
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -49,5 +50,9 @@ class SearchResponse(
 
         @ColumnInfo(name = "created_at")
         var createdAt: Date = Date()
-    )
+    ) : Serializable {
+        companion object {
+            const val KEY = "Movie"
+        }
+    }
 }

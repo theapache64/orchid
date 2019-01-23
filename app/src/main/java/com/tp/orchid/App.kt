@@ -3,6 +3,7 @@ package com.tp.orchid
 import android.app.Activity
 import android.app.Application
 import com.facebook.stetho.Stetho
+import com.squareup.leakcanary.LeakCanary
 import com.tp.orchid.di.components.DaggerAppComponent
 import com.tp.orchid.di.modules.AppModule
 import com.tp.orchid.di.modules.ContextModule
@@ -25,6 +26,14 @@ class App : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+
+        LeakCanary.install(this);
 
         DaggerAppComponent.builder()
             .appModule(AppModule(this))

@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
 import com.tp.orchid.data.remote.login.LogInResponse
+import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityMainBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
 import com.tp.orchid.ui.activities.login.LogInActivity
+import com.tp.orchid.ui.activities.movie.MovieActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
@@ -55,7 +57,11 @@ class MainActivity : BaseAppCompatActivity() {
         binding.viewModel = viewModel
 
         // Adapter
-        val adapter = MoviesAdapter(this)
+        val adapter = MoviesAdapter(this, object : MoviesAdapter.Callback {
+            override fun onMovieClicked(movie: SearchResponse.Movie) {
+                MovieActivity.start(this@MainActivity, movie)
+            }
+        })
         binding.adapter = adapter
 
         // Watching for movie response

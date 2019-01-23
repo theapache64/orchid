@@ -75,10 +75,6 @@ class GetMovieResponse(
     @SerializedName("Director")
     val director: String,
 
-   /* @Ignore
-    @SerializedName("Response")
-    val response: Boolean,*/
-
     @ColumnInfo(name = "meta_score")
     @SerializedName("Metascore")
     val metaScore: String,
@@ -99,6 +95,10 @@ class GetMovieResponse(
     @SerializedName("Production")
     val production: String
 ) {
+
+    @Ignore
+    @SerializedName("Response")
+    var response: Boolean = true
 
     class Rating(
 

@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="callback"
+            type="com.tp.orchid.ui.adapters.MoviesAdapter.Callback" />
+
+        <variable
             name="movie"
             type="com.tp.orchid.data.remote.search.SearchResponse.Movie" />
     </data>
@@ -13,6 +17,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{()-> callback.onMovieClicked(movie)}"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true">

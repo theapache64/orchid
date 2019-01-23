@@ -80,6 +80,12 @@ dependencies {
     // Stetho
     implementation 'com.facebook.stetho:stetho:1.5.0'
 
+    // LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    // Optional, if you use support library fragments:
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+
     // Test
     // TODO : Unit testing should be done at least at minimum level.
     testImplementation 'junit:junit:4.12'
