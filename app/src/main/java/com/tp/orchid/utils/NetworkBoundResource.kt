@@ -41,11 +41,17 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         val dbSource = loadFromDb()
         result.addSource(dbSource) { data ->
             result.removeSource(dbSource)
-            if (shouldFetch(data)) {
-                fetchFromNetwork(dbSource)
-            } else {
-                result.addSource(dbSource) { newData ->
-                    setValue(Resource.success(newData))
+            appExecutors.diskIO().execute {
+                if (shouldFetch(data)) {
+                    appExecutors.mainThread().execute {
+                        fetchFromNetwork(dbSource)
+                    }
+                } else {
+                    appExecutors.mainThread().execute {
+                        result.addSource(dbSource) { newData ->
+                            setValue(Resource.success(newData))
+                        }
+                    }
                 }
             }
         }
@@ -109,7 +115,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
     @WorkerThread
     protected abstract fun saveCallResult(item: RequestType)
 
-    @MainThread
+    @WorkerThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
     @MainThread

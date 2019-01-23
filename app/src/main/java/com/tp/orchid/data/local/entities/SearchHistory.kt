@@ -34,12 +34,13 @@ class SearchHistory(
     var id: Long = 0
 
     companion object {
-        // 1 day
-        val SEARCH_HISTORY_AGE = TimeUnit.DAYS.toMillis(1)
+        // 3 days
+        val SEARCH_HISTORY_AGE = TimeUnit.DAYS.toMillis(3)
     }
 
     fun isExpired(): Boolean {
         val millisToExpire = System.currentTimeMillis() - createdAt.time
-        return millisToExpire > SEARCH_HISTORY_AGE
+        val isExpired = millisToExpire > SEARCH_HISTORY_AGE
+        return isExpired
     }
 }

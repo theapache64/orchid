@@ -37,8 +37,9 @@ class OmdbRepository @Inject constructor(
             }
 
             override fun shouldFetch(data: List<SearchResponse.Movie>?): Boolean {
-                val searchHistory: SearchHistory? = null
-                return data == null || searchHistory == null || searchHistory.isExpired()
+                val searchHistory: SearchHistory? = searchHistoryMovieRelDao.findSearchHistory(keyword, page)
+                val shouldFetch = data == null || searchHistory == null || searchHistory.isExpired()
+                return shouldFetch
             }
 
             override fun loadFromDb(): LiveData<List<SearchResponse.Movie>> {
