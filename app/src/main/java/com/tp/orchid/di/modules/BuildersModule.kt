@@ -9,8 +9,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class BuildersModule {
-
-
+    
     @ContributesAndroidInjector()
     abstract fun bindSplashActivity(): SplashActivity
 

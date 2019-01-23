@@ -60,8 +60,11 @@ class OmdbRepository @Inject constructor(
         val searchHistory = searchHistoryMovieRelDao.findSearchHistory(keyword, page)
 
         if (searchHistory != null) {
-            // search history connection exist
-            return
+            if (searchHistory.isExpired()) {
+                searchHistoryDao.delete(searchHistory)
+            } else {
+                return
+            }
         }
 
         if (t.response) {
