@@ -1,5 +1,6 @@
 package com.tp.orchid.di.modules
 
+import com.tp.orchid.ui.activities.favorites.FavoritesActivity
 import com.tp.orchid.ui.activities.login.LogInActivity
 import com.tp.orchid.ui.activities.main.MainActivity
 import com.tp.orchid.ui.activities.movie.MovieActivity
@@ -9,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class BuildersModule {
-    
+
     @ContributesAndroidInjector()
     abstract fun bindSplashActivity(): SplashActivity
 
@@ -22,4 +23,6 @@ abstract class BuildersModule {
     @ContributesAndroidInjector
     abstract fun bindMovieActivity(): MovieActivity
 
+    @ContributesAndroidInjector
+    abstract fun bindFavoritesActivity(): FavoritesActivity
 }

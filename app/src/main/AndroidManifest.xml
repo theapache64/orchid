@@ -16,7 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-
+        <activity
+            android:name=".ui.activities.favorites.FavoritesActivity"
+            android:label="@string/title_activity_favorites"></activity>
         <!-- Splash -->
         <activity
             android:name=".ui.activities.splash.SplashActivity"
@@ -35,7 +37,6 @@
             android:name=".ui.activities.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.activities.movie.MovieActivity"
             android:label="@string/title_activity_movie"

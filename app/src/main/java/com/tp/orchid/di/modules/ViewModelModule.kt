@@ -3,6 +3,7 @@ package com.tp.orchid.di.modules
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.tp.orchid.ui.activities.favorites.FavoritesViewModel
 import com.tp.orchid.ui.activities.login.LogInViewModel
 import com.tp.orchid.ui.activities.main.MainViewModel
 import com.tp.orchid.ui.activities.movie.MovieViewModel
@@ -39,4 +40,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MovieViewModel::class)
     abstract fun bindMovieViewModel(viewModel: MovieViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoritesViewModel::class)
+    abstract fun bindFavoritesViewModel(viewModel: FavoritesViewModel): ViewModel
 }

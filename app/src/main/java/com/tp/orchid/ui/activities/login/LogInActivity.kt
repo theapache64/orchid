@@ -35,14 +35,14 @@ class LogInActivity : BaseAppCompatActivity() {
         viewModel.getLogInLiveData().observe(this, Observer {
             when (it.status) {
                 Resource.Status.LOADING -> {
-                    showLoadingDialog("Logging in...")
+                    binding.progressLogin.show()
                 }
                 Resource.Status.ERROR -> {
-                    hideLoadingDialog()
+                    binding.progressLogin.hide()
                     toast(it.message!!)
                 }
                 Resource.Status.SUCCESS -> {
-                    hideLoadingDialog()
+                    binding.progressLogin.hide()
                     toast("Logged in!")
                     startActivity(MainActivity.getStartIntent(this))
                     finish()

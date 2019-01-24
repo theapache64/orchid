@@ -87,5 +87,16 @@
             app:layout_constraintStart_toStartOf="@id/tilPassword"
             app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:theme="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
