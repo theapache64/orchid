@@ -44,8 +44,6 @@ dependencies {
 
     // Room
     def roomVersion = '2.1.0-alpha03'
-
-    // Room
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion" // use kapt for Kotlin
     implementation "androidx.room:room-rxjava2:$roomVersion"

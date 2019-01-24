@@ -67,6 +67,9 @@ class SearchResponse(
         @ColumnInfo(name = "mv_created_at")
         var createdAt: Date = Date()
 
+        @ColumnInfo(name = "mv_is_fav")
+        var isFav: Boolean = false
+
         companion object {
             const val KEY = "Movie"
         }

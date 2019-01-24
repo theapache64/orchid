@@ -3,6 +3,7 @@ package com.tp.orchid.data.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.tp.orchid.data.remote.search.SearchResponse
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -12,6 +13,9 @@ interface MovieDao {
 
     @Insert
     fun insert(movie: SearchResponse.Movie): Long
+
+    @Update
+    fun update(movie: SearchResponse.Movie)
 
     @Query("SELECT * FROM movies WHERE mv_imdb_id=:imdbId")
     fun findMovieByImdbId(imdbId: String): SearchResponse.Movie?

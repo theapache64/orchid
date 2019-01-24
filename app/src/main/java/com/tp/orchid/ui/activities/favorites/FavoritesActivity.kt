@@ -18,9 +18,6 @@ class FavoritesActivity : BaseAppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
-
-
-
     }
 
     companion object {

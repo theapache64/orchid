@@ -34,7 +34,6 @@ class MovieActivity : BaseAppCompatActivity() {
         setSupportActionBar(binding.tMovie)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         // getting params
         val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
 
