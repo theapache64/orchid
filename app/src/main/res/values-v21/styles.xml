@@ -2,17 +2,7 @@
 <resources>
 
     <style name="AppTheme.Sample" parent="AppTheme.Base">
-
-
         <item name="android:windowContentTransitions">true</item>
-
-        <!-- Set the transitions which are used for the entrance and exit of shared elements -->
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/grid_detail_transition
-        </item>
-        <item name="android:windowSharedElementExitTransition">
-            @transition/grid_detail_transition
-        </item>
     </style>
 
 </resources>
