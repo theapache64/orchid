@@ -34,19 +34,13 @@ class MovieActivity : BaseAppCompatActivity() {
         setSupportActionBar(binding.tMovie)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val range = 0..binding.tMovie.childCount
-        for (i in range) {
-            val child = binding.tMovie.getChildAt(i)
-            if (child is TextView) {
-                ViewCompat.setTransitionName(child, "title")
-                break
-            }
-        }
-
-        ViewCompat.setTransitionName(binding.ivPoster,"poster")
 
         // getting params
         val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
+
+
+        ViewCompat.setTransitionName(binding.ivPoster, TRANSITION_NAME_POSTER)
+
 
         // getting viewModel
         val viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
@@ -72,6 +66,7 @@ class MovieActivity : BaseAppCompatActivity() {
             }
         })
 
+
         // set params to binding
         binding.viewModel = viewModel
         binding.adapter = adapter
@@ -88,6 +83,9 @@ class MovieActivity : BaseAppCompatActivity() {
     }
 
     companion object {
+
+        const val TRANSITION_NAME_POSTER = "poster"
+
         fun getStartIntent(context: Context, movie: SearchResponse.Movie): Intent {
             val intent = Intent(context, MovieActivity::class.java)
             intent.putExtra(SearchResponse.Movie.KEY, movie)

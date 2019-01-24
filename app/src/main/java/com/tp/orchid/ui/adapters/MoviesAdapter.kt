@@ -29,7 +29,6 @@ class MoviesAdapter(
     fun setMovies(movies: List<SearchResponse.Movie>) {
         this.movies.clear()
         this.movies.addAll(movies)
-        notifyDataSetChanged()
     }
 
     /**
@@ -37,7 +36,6 @@ class MoviesAdapter(
      */
     fun clearMovies() {
         this.movies.clear()
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = movies.size

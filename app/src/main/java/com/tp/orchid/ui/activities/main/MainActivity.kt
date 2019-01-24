@@ -23,14 +23,15 @@ import com.tp.orchid.ui.activities.movie.MovieActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
-import com.tp.orchid.utils.extensions.info
 import com.tp.orchid.utils.extensions.error
+import com.tp.orchid.utils.extensions.info
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import androidx.core.util.Pair as AndroidPair
 
-class MainActivity : BaseAppCompatActivity() {
+class MainActivity : BaseAppCompatActivity(), MoviesAdapter.Callback {
+
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory;
@@ -57,27 +58,7 @@ class MainActivity : BaseAppCompatActivity() {
         binding.viewModel = viewModel
 
         // Adapter
-        val adapter = MoviesAdapter(this, object : MoviesAdapter.Callback {
-            override fun onMovieClicked(view: View, movie: SearchResponse.Movie) {
-
-                val startIntent = MovieActivity.getStartIntent(this@MainActivity, movie)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        this@MainActivity,
-                        AndroidPair<View, String>(view.findViewById(R.id.iv_poster), "poster"),
-                        AndroidPair<View, String>(view.findViewById(R.id.tv_title), "title")
-                    )
-
-                    startActivity(
-                        startIntent,
-                        options.toBundle()
-                    )
-                } else {
-                    startActivity(startIntent)
-                }
-            }
-        })
+        val adapter = MoviesAdapter(this, this)
 
         binding.adapter = adapter
 
@@ -86,16 +67,19 @@ class MainActivity : BaseAppCompatActivity() {
             when (response.status) {
                 Resource.Status.LOADING -> {
                     adapter.clearMovies()
+                    adapter.notifyDataSetChanged()
                 }
                 Resource.Status.SUCCESS -> {
                     info("Success :")
-                    if (response.data != null) {
+                    if (response.data != null && response.data.isNotEmpty()) {
                         adapter.setMovies(response.data)
+                        adapter.notifyDataSetChanged()
                     }
                 }
                 Resource.Status.ERROR -> {
                     error("Error")
                     adapter.clearMovies()
+                    adapter.notifyDataSetChanged()
                 }
             }
         })
@@ -122,6 +106,30 @@ class MainActivity : BaseAppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+
+    override fun onMovieClicked(root: View, movie: SearchResponse.Movie) {
+        val startIntent = MovieActivity.getStartIntent(this@MainActivity, movie)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this@MainActivity,
+                AndroidPair<View, String>(
+                    root.findViewById(R.id.iv_poster),
+                    MovieActivity.TRANSITION_NAME_POSTER
+                )
+            )
+
+            startActivity(
+                startIntent,
+                options.toBundle()
+            )
+
+        } else {
+            startActivity(startIntent)
+        }
     }
 
     companion object {
