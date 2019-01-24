@@ -11,6 +11,14 @@ interface MovieDetailsDao {
     @Insert
     fun insert(getMovieResponse: GetMovieResponse)
 
-    @Query("SELECT * FROM movie_details WHERE movie_id=:movieId LIMIT 1")
-    fun getMovieDetails(movieId: Long): LiveData<GetMovieResponse>
+    @Query(
+        """
+        SELECT
+        md.*
+        FROM movie_details md
+        INNER JOIN movies mv ON mv.mv_id = md.movie_id
+        WHERE mv.mv_imdb_id = :imdbId
+    """
+    )
+    fun getMovieDetails(imdbId: String): LiveData<GetMovieResponse>
 }

@@ -7,4 +7,26 @@
     <string name="hint_search">Search</string>
     <string name="title_logout">Logout</string>
     <string name="title_activity_movie">MovieActivity</string>
+    <string name="key_value_type">Type</string>
+    <string name="key_value_year">Year</string>
+    <string name="key_value_title">Title</string>
+    <string name="key_value_dvd">DVD</string>
+    <string name="key_value_plot">Plot</string>
+    <string name="key_value_rated">Rated</string>
+    <string name="key_value_genre">Genre</string>
+    <string name="key_value_actors">Actors</string>
+    <string name="key_value_awards">Awards</string>
+    <string name="key_value_writer">Writer</string>
+    <string name="key_value_website">Website</string>
+    <string name="key_value_rating">Rating</string>
+    <string name="key_value_runtime">Runtime</string>
+    <string name="key_value_country">Country</string>
+    <string name="key_value_language">Language</string>
+    <string name="key_value_released">Released</string>
+    <string name="key_value_director">Director</string>
+    <string name="key_value_metascore">Metascore</string>
+    <string name="key_value_box_office">Box Office</string>
+    <string name="key_value_imdb_votes">IMDB Votes</string>
+    <string name="key_value_imdb_rating">IMDB Rating</string>
+    <string name="key_value_production">Production</string>
 </resources>

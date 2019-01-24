@@ -11,7 +11,7 @@ class MainViewModel @Inject constructor(
     val omdbRepository: OmdbRepository
 ) : ViewModel() {
 
-    val keyword = MutableLiveData<String>("Hulk");
+    val keyword = MutableLiveData<String>("Iron Man");
     val message = ObservableField<String>("Welcome!");
 
 

@@ -1,5 +1,6 @@
 package com.tp.orchid.data.remote.base
 
+import androidx.room.Ignore
 import com.google.gson.annotations.SerializedName
 
 

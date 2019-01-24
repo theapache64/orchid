@@ -7,7 +7,9 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.tp.orchid.R
 import com.tp.orchid.data.remote.base.BaseOmdbApiResponse
+import com.tp.orchid.models.KeyValue
 import java.io.Serializable
 import java.util.*
 
@@ -53,6 +55,14 @@ class SearchResponse(
         val poster: String
 
     ) : Serializable {
+
+        fun getDetailsAsKeyValues(): MutableList<KeyValue> {
+            val list = mutableListOf<KeyValue>()
+            list.add(KeyValue(R.string.key_value_title, title))
+            list.add(KeyValue(R.string.key_value_type, type))
+            list.add(KeyValue(R.string.key_value_year, year))
+            return list
+        }
 
         @ColumnInfo(name = "mv_created_at")
         var createdAt: Date = Date()

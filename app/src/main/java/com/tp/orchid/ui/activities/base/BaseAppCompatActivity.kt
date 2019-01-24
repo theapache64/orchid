@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 @SuppressLint("Registered")
 open class BaseAppCompatActivity : AppCompatActivity() {
 
-    var progressDialog: ProgressDialog? = null
+    // var progressDialog: ProgressDialog? = null
 
     fun showLoadingDialog(message: String) {
-        hideLoadingDialog()
+        /*hideLoadingDialog()
 
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage(message)
@@ -18,10 +18,11 @@ open class BaseAppCompatActivity : AppCompatActivity() {
         progressDialog.setCancelable(false)
 
         this.progressDialog = progressDialog
-        progressDialog.show()
+        progressDialog.show()*/
     }
 
     fun hideLoadingDialog() {
-        progressDialog?.dismiss()
+        /* progressDialog?.dismiss()
+         progressDialog = null*/
     }
 }

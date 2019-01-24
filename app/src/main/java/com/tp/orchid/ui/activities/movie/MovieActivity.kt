@@ -3,13 +3,17 @@ package com.tp.orchid.ui.activities.movie
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityMovieBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
+import com.tp.orchid.ui.adapters.KeyValueAdapter
+import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
+import com.tp.orchid.utils.extensions.toast
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -22,21 +26,46 @@ class MovieActivity : BaseAppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        // getting params
-        val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
-
         // binding
         val binding = bindContentView<ActivityMovieBinding>(R.layout.activity_movie)
         setSupportActionBar(binding.tMovie)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // getting viewmodel
+        // getting params
+        val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
+
+        // getting viewModel
         val viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
 
-        // set params to viewmodel
+        // set params to viewModel
         viewModel.movie = movie
 
-        // passing viewmodel to binding
+        // building details
+        val movieDetails = movie.getDetailsAsKeyValues()
+        val adapter = KeyValueAdapter(this, movieDetails)
+
+        viewModel.getMovieDetails(movie.imdbId).observe(this, Observer {
+            when (it.status) {
+                Resource.Status.LOADING -> {
+
+                }
+                Resource.Status.SUCCESS -> {
+                    adapter.appendKeyValues(it.data!!.getDetailsAsKeyValues())
+                }
+                Resource.Status.ERROR -> {
+                    toast(it.message ?: "Failed to fetch more details")
+                }
+            }
+        })
+
+        // set params to binding
         binding.viewModel = viewModel
+        binding.adapter = adapter
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 
     companion object {

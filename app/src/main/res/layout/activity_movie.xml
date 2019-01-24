@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="adapter"
+            type="com.tp.orchid.ui.adapters.KeyValueAdapter" />
+
+        <variable
             name="viewModel"
             type="com.tp.orchid.ui.activities.movie.MovieViewModel" />
     </data>
@@ -58,7 +62,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMovieDetails"
             android:layout_width="match_parent"
-            android:layout_height="1000dp"
+            android:layout_height="wrap_content"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -23,7 +23,7 @@ interface SearchHistoryMovieRelDao {
                 FROM search_histories_movies_rel shmr
                 INNER JOIN movies mv ON mv.mv_id = shmr.shmr_movie_id
                 INNER JOIN search_histories sh  ON sh.sh_id = shmr.shmr_search_history_id
-                WHERE sh.sh_keyword = :keyword AND sh.sh_page = :page GROUP BY mv.mv_imdb_id"""
+                WHERE sh.sh_keyword = :keyword AND sh.sh_page = :page GROUP BY mv.mv_imdb_id ORDER BY mv.mv_year DESC"""
     )
     fun getMovies(keyword: String, page: Int): LiveData<List<SearchResponse.Movie>>
 }
