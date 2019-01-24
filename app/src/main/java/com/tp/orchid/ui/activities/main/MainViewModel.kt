@@ -21,6 +21,7 @@ class MainViewModel @Inject constructor(
             message.set("Please enter movie name")
             return@switchMap null
         }
+
         omdbRepository.search(keyword, 1)
     }
 

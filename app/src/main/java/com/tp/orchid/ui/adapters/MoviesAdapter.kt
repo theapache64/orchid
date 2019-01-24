@@ -2,7 +2,9 @@ package com.tp.orchid.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tp.orchid.data.remote.search.SearchResponse
@@ -45,9 +47,15 @@ class MoviesAdapter(
         holder.binding.callback = callback
     }
 
-    class ViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                callback.onMovieClicked(it, movies[layoutPosition])
+            }
+        }
+    }
 
     interface Callback {
-        fun onMovieClicked(movie: SearchResponse.Movie)
+        fun onMovieClicked(root: View, movie: SearchResponse.Movie)
     }
 }

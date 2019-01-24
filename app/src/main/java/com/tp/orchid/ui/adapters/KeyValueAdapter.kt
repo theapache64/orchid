@@ -23,16 +23,16 @@ class KeyValueAdapter(
     fun appendKeyValues(keyValues: List<KeyValue>) {
         val beforeAppend = this.keyValues.size
         this.keyValues.addAll(keyValues)
-        this.notifyItemRangeInserted(beforeAppend, keyValues.size)
+        this.notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = keyValues.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binbing.keyValue = keyValues[position]
+        holder.binding.keyValue = keyValues[position]
     }
 
     // view holder
-    class ViewHolder(val binbing: ItemKeyValueBinding) : RecyclerView.ViewHolder(binbing.root)
+    class ViewHolder(val binding: ItemKeyValueBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

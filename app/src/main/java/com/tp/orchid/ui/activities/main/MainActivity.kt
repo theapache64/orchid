@@ -3,9 +3,12 @@ package com.tp.orchid.ui.activities.main
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +28,7 @@ import com.tp.orchid.utils.extensions.error
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+import androidx.core.util.Pair as AndroidPair
 
 class MainActivity : BaseAppCompatActivity() {
 
@@ -46,6 +50,7 @@ class MainActivity : BaseAppCompatActivity() {
         val binding = bindContentView<ActivityMainBinding>(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+
         this.viewModel = ViewModelProviders.of(this, factory)
             .get(MainViewModel::class.java)
 
@@ -53,12 +58,27 @@ class MainActivity : BaseAppCompatActivity() {
 
         // Adapter
         val adapter = MoviesAdapter(this, object : MoviesAdapter.Callback {
-            override fun onMovieClicked(movie: SearchResponse.Movie) {
-                startActivity(
-                    MovieActivity.getStartIntent(this@MainActivity, movie)
-                )
+            override fun onMovieClicked(view: View, movie: SearchResponse.Movie) {
+
+                val startIntent = MovieActivity.getStartIntent(this@MainActivity, movie)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this@MainActivity,
+                        AndroidPair<View, String>(view.findViewById(R.id.iv_poster), "poster"),
+                        AndroidPair<View, String>(view.findViewById(R.id.tv_title), "title")
+                    )
+
+                    startActivity(
+                        startIntent,
+                        options.toBundle()
+                    )
+                } else {
+                    startActivity(startIntent)
+                }
             }
         })
+
         binding.adapter = adapter
 
         // Watching for movie response

@@ -2,7 +2,10 @@ package com.tp.orchid.ui.activities.movie
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.widget.TextView
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -30,6 +33,17 @@ class MovieActivity : BaseAppCompatActivity() {
         val binding = bindContentView<ActivityMovieBinding>(R.layout.activity_movie)
         setSupportActionBar(binding.tMovie)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val range = 0..binding.tMovie.childCount
+        for (i in range) {
+            val child = binding.tMovie.getChildAt(i)
+            if (child is TextView) {
+                ViewCompat.setTransitionName(child, "title")
+                break
+            }
+        }
+
+        ViewCompat.setTransitionName(binding.ivPoster,"poster")
 
         // getting params
         val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
@@ -64,8 +78,13 @@ class MovieActivity : BaseAppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        supportFinishAfterTransition()
+        super.onBackPressed()
     }
 
     companion object {
