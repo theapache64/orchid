@@ -26,8 +26,12 @@ class SplashActivity : DaggerAppCompatActivity() {
         viewModel.getLaunchActivityEvent().observe(this, Observer { activityId ->
 
             when (activityId) {
-                MainActivity.ID -> MainActivity.start(this)
-                LogInActivity.ID -> LogInActivity.start(this)
+                MainActivity.ID -> {
+                    startActivity(MainActivity.getStartIntent(this))
+                }
+                LogInActivity.ID -> {
+                    startActivity(LogInActivity.getStartIntent(this))
+                }
                 else -> throw IllegalArgumentException("Undefined activity id $activityId")
             }
 

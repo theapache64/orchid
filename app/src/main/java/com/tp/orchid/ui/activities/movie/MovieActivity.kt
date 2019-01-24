@@ -69,10 +69,10 @@ class MovieActivity : BaseAppCompatActivity() {
     }
 
     companion object {
-        fun start(context: Context, movie: SearchResponse.Movie) {
+        fun getStartIntent(context: Context, movie: SearchResponse.Movie): Intent {
             val intent = Intent(context, MovieActivity::class.java)
             intent.putExtra(SearchResponse.Movie.KEY, movie)
-            context.startActivity(intent)
+            return intent
         }
     }
 

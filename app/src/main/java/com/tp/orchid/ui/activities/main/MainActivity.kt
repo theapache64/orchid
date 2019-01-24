@@ -54,7 +54,9 @@ class MainActivity : BaseAppCompatActivity() {
         // Adapter
         val adapter = MoviesAdapter(this, object : MoviesAdapter.Callback {
             override fun onMovieClicked(movie: SearchResponse.Movie) {
-                MovieActivity.start(this@MainActivity, movie)
+                startActivity(
+                    MovieActivity.getStartIntent(this@MainActivity, movie)
+                )
             }
         })
         binding.adapter = adapter
@@ -93,7 +95,7 @@ class MainActivity : BaseAppCompatActivity() {
                     clear()
                 }
 
-                LogInActivity.start(this)
+                startActivity(LogInActivity.getStartIntent(this))
                 finish()
 
             }
@@ -103,13 +105,8 @@ class MainActivity : BaseAppCompatActivity() {
     }
 
     companion object {
-
         const val ID = R.id.MAIN_ACTIVITY_ID
-
-        fun start(context: Context) {
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
-        }
+        fun getStartIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 
 }

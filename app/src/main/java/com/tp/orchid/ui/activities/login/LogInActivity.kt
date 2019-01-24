@@ -3,7 +3,6 @@ package com.tp.orchid.ui.activities.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +13,6 @@ import com.tp.orchid.ui.activities.main.MainActivity
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.*
 import dagger.android.AndroidInjection
-import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 class LogInActivity : BaseAppCompatActivity() {
@@ -46,7 +44,7 @@ class LogInActivity : BaseAppCompatActivity() {
                 Resource.Status.SUCCESS -> {
                     hideLoadingDialog()
                     toast("Logged in!")
-                    MainActivity.start(this)
+                    startActivity(MainActivity.getStartIntent(this))
                     finish()
                 }
             }
@@ -57,11 +55,7 @@ class LogInActivity : BaseAppCompatActivity() {
     companion object {
 
         const val ID = R.id.LOGIN_ACTIVITY_ID
-
-        fun start(context: Context) {
-            val intent = Intent(context, LogInActivity::class.java)
-            context.startActivity(intent)
-        }
+        fun getStartIntent(context: Context): Intent = Intent(context, LogInActivity::class.java)
     }
 
 }
