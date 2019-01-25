@@ -18,6 +18,7 @@ import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityMainBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
+import com.tp.orchid.ui.activities.favorites.FavoritesActivity
 import com.tp.orchid.ui.activities.login.LogInActivity
 import com.tp.orchid.ui.activities.movie.MovieActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
@@ -92,20 +93,27 @@ class MainActivity : BaseAppCompatActivity(), MoviesAdapter.Callback {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
+
+            R.id.action_fav -> {
+                startActivity(FavoritesActivity.getStartIntent(this))
+            }
+
             R.id.action_logout -> {
-
-                // Clearing all pref
-                sharedPreferences.edit {
-                    clear()
-                }
-
-                startActivity(LogInActivity.getStartIntent(this))
-                finish()
-
+                logout()
             }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun logout() {
+        // Clearing all pref
+        sharedPreferences.edit {
+            clear()
+        }
+
+        startActivity(LogInActivity.getStartIntent(this))
+        finish()
     }
 
 

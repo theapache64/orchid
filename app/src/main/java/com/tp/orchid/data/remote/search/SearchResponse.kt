@@ -1,12 +1,15 @@
 package com.tp.orchid.data.remote.search
 
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.tp.orchid.BR
 import com.tp.orchid.R
 import com.tp.orchid.data.remote.base.BaseOmdbApiResponse
 import com.tp.orchid.models.KeyValue
@@ -54,7 +57,8 @@ class SearchResponse(
         @SerializedName("Poster")
         val poster: String
 
-    ) : Serializable {
+    ) : BaseObservable(), Serializable {
+
 
         fun getDetailsAsKeyValues(): MutableList<KeyValue> {
             val list = mutableListOf<KeyValue>()
@@ -65,10 +69,19 @@ class SearchResponse(
         }
 
         @ColumnInfo(name = "mv_created_at")
-        var createdAt: Date = Date()
+        lateinit var createdAt: Date
+
+        @ColumnInfo(name = "mv_updated_at")
+        var updatedAt: Date? = null
 
         @ColumnInfo(name = "mv_is_fav")
+        @get:Bindable
         var isFav: Boolean = false
+            set(value) {
+                updatedAt = Date()
+                field = value
+                notifyPropertyChanged(BR.fav)
+            }
 
         companion object {
             const val KEY = "Movie"

@@ -43,7 +43,7 @@ class OmdbRepository @Inject constructor(
             }
 
             override fun loadFromDb(): LiveData<List<SearchResponse.Movie>> {
-                return searchHistoryMovieRelDao.getMovies(keyword, page)
+                return movieDao.getMovies(keyword, page)
             }
 
             override fun createCall(): LiveData<ApiResponse<SearchResponse>> {

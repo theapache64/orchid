@@ -11,6 +11,7 @@ import com.tp.orchid.utils.ApiResponse
 import com.tp.orchid.utils.AppExecutors
 import com.tp.orchid.utils.NetworkBoundResource
 import com.tp.orchid.utils.Resource
+import java.util.*
 import javax.inject.Inject
 
 class MovieViewModel @Inject constructor(
@@ -48,6 +49,7 @@ class MovieViewModel @Inject constructor(
 
     fun onFavClicked() {
         appExecutors.diskIO().execute {
+            movie.updatedAt = Date()
             movie.isFav = !movie.isFav
             movieDao.update(movie)
         }

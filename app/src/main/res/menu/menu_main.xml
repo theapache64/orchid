@@ -4,9 +4,18 @@
     tools:context="com.tp.orchid.ui.activities.main.MainActivity">
 
     <item
+        android:id="@+id/action_fav"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:title="@string/action_favorites"
+        app:iconTint="@color/white"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_logout"
         android:orderInCategory="100"
         android:title="@string/title_logout"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
+
 </menu>
