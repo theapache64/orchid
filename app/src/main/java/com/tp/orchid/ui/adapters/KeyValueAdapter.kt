@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tp.orchid.databinding.ItemKeyValueBinding
 import com.tp.orchid.models.KeyValue
+import java.lang.StringBuilder
 
 class KeyValueAdapter(
-    context: Context,
+    val context: Context,
     val keyValues: MutableList<KeyValue>
 ) : RecyclerView.Adapter<KeyValueAdapter.ViewHolder>() {
 
@@ -30,6 +31,18 @@ class KeyValueAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.keyValue = keyValues[position]
+    }
+
+    fun getShareData(): String {
+        //
+        val stringBuilder = StringBuilder()
+
+        stringBuilder.append("I love this moviee!! \n\n")
+
+        keyValues.forEach {
+            stringBuilder.append("${context.getString(it.key)} : ${it.value} \n\n")
+        }
+        return stringBuilder.toString()
     }
 
     // view holder

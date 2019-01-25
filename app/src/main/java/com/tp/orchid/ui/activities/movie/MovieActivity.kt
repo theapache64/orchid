@@ -2,9 +2,9 @@ package com.tp.orchid.ui.activities.movie
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.widget.TextView
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +25,9 @@ class MovieActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
+    private lateinit var movie: SearchResponse.Movie
+    private lateinit var adapter : KeyValueAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -36,7 +39,7 @@ class MovieActivity : BaseAppCompatActivity() {
 
 
         // getting params
-        val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
+        movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
 
 
         ViewCompat.setTransitionName(binding.ivPoster, TRANSITION_NAME_POSTER)
@@ -50,7 +53,7 @@ class MovieActivity : BaseAppCompatActivity() {
 
         // building details
         val movieDetails = movie.getDetailsAsKeyValues()
-        val adapter = KeyValueAdapter(this, movieDetails)
+        this.adapter = KeyValueAdapter(this, movieDetails)
 
         viewModel.getMovieDetails(movie.imdbId).observe(this, Observer {
             when (it.status) {
@@ -70,6 +73,30 @@ class MovieActivity : BaseAppCompatActivity() {
         // set params to binding
         binding.viewModel = viewModel
         binding.adapter = adapter
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_movie, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.action_share -> {
+                shareMovie()
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+        return true
+    }
+
+    private fun shareMovie() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, adapter.getShareData())
+        startActivity(shareIntent)
     }
 
     companion object {
