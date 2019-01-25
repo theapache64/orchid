@@ -34,6 +34,7 @@ class MovieActivity : BaseAppCompatActivity() {
         setSupportActionBar(binding.tMovie)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         // getting params
         val movie: SearchResponse.Movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
 
@@ -69,16 +70,6 @@ class MovieActivity : BaseAppCompatActivity() {
         // set params to binding
         binding.viewModel = viewModel
         binding.adapter = adapter
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
-
-    override fun onBackPressed() {
-        supportFinishAfterTransition()
-        super.onBackPressed()
     }
 
     companion object {

@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import androidx.core.util.Pair as AndroidPair
 
-class MainActivity : BaseAppCompatActivity(), MoviesAdapter.Callback {
+class MainActivity : BaseAppCompatActivity() {
 
 
     @Inject
@@ -59,7 +59,7 @@ class MainActivity : BaseAppCompatActivity(), MoviesAdapter.Callback {
         binding.viewModel = viewModel
 
         // Adapter
-        val adapter = MoviesAdapter(this, this)
+        val adapter = MoviesAdapter(this, MovieCallbackImpl(this))
 
         binding.adapter = adapter
 
@@ -116,29 +116,6 @@ class MainActivity : BaseAppCompatActivity(), MoviesAdapter.Callback {
         finish()
     }
 
-
-    override fun onMovieClicked(root: View, movie: SearchResponse.Movie) {
-        val startIntent = MovieActivity.getStartIntent(this@MainActivity, movie)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this@MainActivity,
-                AndroidPair<View, String>(
-                    root.findViewById(R.id.iv_poster),
-                    MovieActivity.TRANSITION_NAME_POSTER
-                )
-            )
-
-            startActivity(
-                startIntent,
-                options.toBundle()
-            )
-
-        } else {
-            startActivity(startIntent)
-        }
-    }
 
     companion object {
         const val ID = R.id.MAIN_ACTIVITY_ID

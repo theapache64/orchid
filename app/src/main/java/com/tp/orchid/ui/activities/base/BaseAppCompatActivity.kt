@@ -7,22 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 @SuppressLint("Registered")
 open class BaseAppCompatActivity : AppCompatActivity() {
 
-    // var progressDialog: ProgressDialog? = null
-
-    fun showLoadingDialog(message: String) {
-        /*hideLoadingDialog()
-
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage(message)
-        progressDialog.isIndeterminate = true
-        progressDialog.setCancelable(false)
-
-        this.progressDialog = progressDialog
-        progressDialog.show()*/
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
-    fun hideLoadingDialog() {
-        /* progressDialog?.dismiss()
-         progressDialog = null*/
+    override fun onBackPressed() {
+        supportFinishAfterTransition()
+        super.onBackPressed()
     }
 }

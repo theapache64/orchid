@@ -10,13 +10,11 @@ import com.tp.orchid.utils.AppExecutors
 import javax.inject.Inject
 
 class FavoritesViewModel @Inject constructor(
-    private val movieDao: MovieDao,
-    appExecutors: AppExecutors
+    private val movieDao: MovieDao
 ) : ViewModel() {
-    private val favoritesLiveData: LiveData<List<SearchResponse.Movie>> = movieDao.getFavMovies()
 
     fun getFavorites(): LiveData<List<SearchResponse.Movie>> {
-        return favoritesLiveData
+        return movieDao.getFavMovies()
     }
 
 }

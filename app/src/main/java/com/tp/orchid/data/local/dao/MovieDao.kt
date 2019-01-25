@@ -33,11 +33,7 @@ interface MovieDao {
     fun getMovies(keyword: String, page: Int): LiveData<List<SearchResponse.Movie>>
 
     @Query(
-        """
-            SELECT
-                 mv.*
-                FROM movies mv
-                WHERE mv.mv_is_fav = 1 ORDER BY mv.mv_updated_at DESC"""
+        "SELECT * FROM movies WHERE mv_is_fav = 1"
     )
     fun getFavMovies(): LiveData<List<SearchResponse.Movie>>
 
