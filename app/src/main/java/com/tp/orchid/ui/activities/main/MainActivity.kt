@@ -30,6 +30,12 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import androidx.core.util.Pair as AndroidPair
+import android.widget.Toast
+import android.R
+import androidx.recyclerview.widget.RecyclerView
+import android.R
+import androidx.recyclerview.widget.GridLayoutManager
+
 
 class MainActivity : BaseAppCompatActivity() {
 
@@ -46,10 +52,12 @@ class MainActivity : BaseAppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
 
+    private var isLoadingEnabled: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        val binding = bindContentView<ActivityMainBinding>(R.layout.activity_main)
+        val binding = bindContentView<ActivityMainBinding>(com.tp.orchid.R.layout.activity_main)
         setSupportActionBar(toolbar)
 
 
@@ -84,6 +92,44 @@ class MainActivity : BaseAppCompatActivity() {
                 }
             }
         })
+
+
+
+        binding.include.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+
+                    val mLayoutManager = recyclerView.layoutManager!! as GridLayoutManager
+
+                    // Checking for scroll down
+                    val visibleItemCount = mLayoutManager.getChildCount()
+                    val totalItemCount = mLayoutManager.getItemCount()
+                    val pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition()
+
+                    if (isLoadingEnabled) {
+
+                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                            isLoadingEnabled = false
+
+                            Log.v("...", "Last Item Wow !")
+                            //Do pagination.. i.e. fetch new data
+
+                            if (hasMoreNotifications) {
+                                page += 1
+                                SingletonToast.makeText(
+                                    getActivity(),
+                                    R.string.Loading_more_notifications,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                presenter.loadNotifications(token, page)
+                            }
+
+                        }
+                    }
+                }
+            }
+        })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
