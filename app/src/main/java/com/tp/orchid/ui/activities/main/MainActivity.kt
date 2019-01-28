@@ -3,24 +3,19 @@ package com.tp.orchid.ui.activities.main
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
 import com.tp.orchid.data.remote.login.LogInResponse
-import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityMainBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
 import com.tp.orchid.ui.activities.favorites.FavoritesActivity
 import com.tp.orchid.ui.activities.login.LogInActivity
-import com.tp.orchid.ui.activities.movie.MovieActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
@@ -30,11 +25,6 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import androidx.core.util.Pair as AndroidPair
-import android.widget.Toast
-import android.R
-import androidx.recyclerview.widget.RecyclerView
-import android.R
-import androidx.recyclerview.widget.GridLayoutManager
 
 
 class MainActivity : BaseAppCompatActivity() {
@@ -93,42 +83,6 @@ class MainActivity : BaseAppCompatActivity() {
             }
         })
 
-
-
-        binding.include.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-
-                    val mLayoutManager = recyclerView.layoutManager!! as GridLayoutManager
-
-                    // Checking for scroll down
-                    val visibleItemCount = mLayoutManager.getChildCount()
-                    val totalItemCount = mLayoutManager.getItemCount()
-                    val pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition()
-
-                    if (isLoadingEnabled) {
-
-                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
-                            isLoadingEnabled = false
-
-                            Log.v("...", "Last Item Wow !")
-                            //Do pagination.. i.e. fetch new data
-
-                            if (hasMoreNotifications) {
-                                page += 1
-                                SingletonToast.makeText(
-                                    getActivity(),
-                                    R.string.Loading_more_notifications,
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                presenter.loadNotifications(token, page)
-                            }
-
-                        }
-                    }
-                }
-            }
-        })
 
     }
 
