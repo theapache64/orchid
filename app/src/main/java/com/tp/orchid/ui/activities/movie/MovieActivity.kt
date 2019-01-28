@@ -25,8 +25,7 @@ class MovieActivity : BaseAppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private lateinit var movie: SearchResponse.Movie
-    private lateinit var adapter : KeyValueAdapter
+    private lateinit var adapter: KeyValueAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -36,12 +35,6 @@ class MovieActivity : BaseAppCompatActivity() {
         val binding = bindContentView<ActivityMovieBinding>(R.layout.activity_movie)
         setSupportActionBar(binding.tMovie)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-        // getting params
-        movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
-
-
         ViewCompat.setTransitionName(binding.ivPoster, TRANSITION_NAME_POSTER)
 
 
@@ -49,19 +42,21 @@ class MovieActivity : BaseAppCompatActivity() {
         val viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
 
         // set params to viewModel
-        viewModel.movie = movie
+        viewModel.movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
 
         // building details
-        val movieDetails = movie.getDetailsAsKeyValues()
+        val movieDetails = viewModel.movie.getDetailsAsKeyValues()
         this.adapter = KeyValueAdapter(this, movieDetails)
 
-        viewModel.getMovieDetails(movie.imdbId).observe(this, Observer {
+        val movieDetailsLiveData = viewModel.getMovieDetails()
+        movieDetailsLiveData.observe(this, Observer {
             when (it.status) {
                 Resource.Status.LOADING -> {
-
+                    /// do nothing
                 }
                 Resource.Status.SUCCESS -> {
                     adapter.appendKeyValues(it.data!!.getDetailsAsKeyValues())
+                    movieDetailsLiveData.removeObservers(this)
                 }
                 Resource.Status.ERROR -> {
                     toast(it.message ?: "Failed to fetch more details")

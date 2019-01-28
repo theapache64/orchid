@@ -25,7 +25,7 @@ class MovieViewModel @Inject constructor(
     lateinit var movie: SearchResponse.Movie
 
     // get more movie details
-    fun getMovieDetails(imdbId: String): LiveData<Resource<GetMovieResponse>> {
+    fun getMovieDetails(): LiveData<Resource<GetMovieResponse>> {
         return object : NetworkBoundResource<GetMovieResponse, GetMovieResponse>(appExecutors) {
             override fun saveCallResult(item: GetMovieResponse) {
                 item.movieId = movie.id
@@ -37,20 +37,22 @@ class MovieViewModel @Inject constructor(
             }
 
             override fun loadFromDb(): LiveData<GetMovieResponse> {
-                return movieDetailsDao.getMovieDetails(imdbId)
+                return movieDetailsDao.getMovieDetails(movie.imdbId)
             }
 
             override fun createCall(): LiveData<ApiResponse<GetMovieResponse>> {
-                return apiInterface.getMovie(imdbId)
+                return apiInterface.getMovie(movie.imdbId)
             }
 
         }.asLiveData()
     }
 
     fun onFavClicked() {
+
+        movie.updatedAt = Date()
+        movie.isFav = !movie.isFav
+
         appExecutors.diskIO().execute {
-            movie.updatedAt = Date()
-            movie.isFav = !movie.isFav
             movieDao.update(movie)
         }
     }
