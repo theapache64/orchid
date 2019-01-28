@@ -12,6 +12,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val keyword = MutableLiveData<String>("Iron Man");
+    val page = MutableLiveData<Int>()
     val message = ObservableField<String>("Welcome!");
     val clearListLiveData = MutableLiveData<Boolean>()
 
@@ -26,6 +27,24 @@ class MainViewModel @Inject constructor(
 
         omdbRepository.search(keyword, 1)
     }
+
+    // on keyword changed, change page number
+    private val searchResponseNew = Transformations.map(keyword) { keyword ->
+        // keyword changed
+        if (keyword.isEmpty()) {
+            message.set("Please enter movie name")
+            return@map null
+        }
+
+        clearListLiveData.value = true
+        page.value = 1
+    }
+
+    // on page number changed, load data
+    private val searchResponseNew2 = Transformations.switchMap(page) { newPage ->
+        omdbRepository.search(keyword.value!!, newPage)
+    }
+
 
     val searchMerger = MediatorLiveData<Resource<List<SearchResponse.Movie>>>()
 
