@@ -62,13 +62,11 @@ class MainActivity : BaseAppCompatActivity() {
 
         // Watching for movie response
         viewModel.getSearchResponse().observe(this, Observer { response ->
-            when (response.status) {
-                Resource.Status.SUCCESS -> {
-                    info("Success :")
-                    if (response.data != null && response.data.isNotEmpty()) {
-                        adapter.appendMovies(response.data)
-                        adapter.notifyDataSetChanged()
-                    }
+            if (response.status == Resource.Status.SUCCESS) {
+                info("Success :")
+                if (response.data != null && response.data.isNotEmpty()) {
+                    adapter.appendMovies(response.data)
+                    adapter.notifyDataSetChanged()
                 }
             }
         })

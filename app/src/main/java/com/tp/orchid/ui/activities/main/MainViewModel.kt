@@ -22,6 +22,8 @@ class MainViewModel @Inject constructor(
             return@switchMap null
         }
 
+        clearListLiveData.value = true
+
         omdbRepository.search(keyword, 1)
     }
 
