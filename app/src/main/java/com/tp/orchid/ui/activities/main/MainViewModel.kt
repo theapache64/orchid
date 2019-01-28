@@ -13,7 +13,7 @@ class MainViewModel @Inject constructor(
 
     val keyword = MutableLiveData<String>("Iron Man");
     val message = ObservableField<String>("Welcome!");
-
+    val clearListLiveData = MutableLiveData<Boolean>()
 
     private val searchResponse = Transformations.switchMap(keyword) { keyword ->
         // keyword changed
@@ -40,4 +40,5 @@ class MainViewModel @Inject constructor(
     }
 
     fun getSearchResponse(): LiveData<Resource<List<SearchResponse.Movie>>> = searchMerger
+    fun getClearListLiveData(): LiveData<Boolean> = clearListLiveData
 }

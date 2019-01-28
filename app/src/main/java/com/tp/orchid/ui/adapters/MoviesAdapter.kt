@@ -26,8 +26,7 @@ class MoviesAdapter(
     /**
      * Sets movie list and update the adapter
      */
-    fun setMovies(movies: List<SearchResponse.Movie>) {
-        this.movies.clear()
+    fun appendMovies(movies: List<SearchResponse.Movie>) {
         this.movies.addAll(movies)
     }
 

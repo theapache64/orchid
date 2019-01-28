@@ -3,12 +3,10 @@ package com.tp.orchid.ui.activities.favorites
 import android.os.Bundle
 import android.content.Context
 import android.content.Intent
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.tp.orchid.R
-import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.databinding.ActivityFavoritesBinding
 import com.tp.orchid.ui.activities.base.BaseAppCompatActivity
 import com.tp.orchid.ui.activities.main.MovieCallbackImpl
@@ -34,7 +32,7 @@ class FavoritesActivity : BaseAppCompatActivity() {
         val moviesAdapter = MoviesAdapter(this, MovieCallbackImpl(this))
 
         viewModel.getFavorites().observe(this, Observer {
-            moviesAdapter.setMovies(it)
+            moviesAdapter.appendMovies(it)
             moviesAdapter.notifyDataSetChanged()
         })
 

@@ -19,7 +19,6 @@ import com.tp.orchid.ui.activities.login.LogInActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
-import com.tp.orchid.utils.extensions.error
 import com.tp.orchid.utils.extensions.info
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
@@ -64,22 +63,21 @@ class MainActivity : BaseAppCompatActivity() {
         // Watching for movie response
         viewModel.getSearchResponse().observe(this, Observer { response ->
             when (response.status) {
-                Resource.Status.LOADING -> {
-                    adapter.clearMovies()
-                    adapter.notifyDataSetChanged()
-                }
                 Resource.Status.SUCCESS -> {
                     info("Success :")
                     if (response.data != null && response.data.isNotEmpty()) {
-                        adapter.setMovies(response.data)
+                        adapter.appendMovies(response.data)
                         adapter.notifyDataSetChanged()
                     }
                 }
-                Resource.Status.ERROR -> {
-                    error("Error")
-                    adapter.clearMovies()
-                    adapter.notifyDataSetChanged()
-                }
+            }
+        })
+
+        // watching for clear list command
+        viewModel.getClearListLiveData().observe(this, Observer { isClear ->
+            if (isClear) {
+                adapter.clearMovies()
+                adapter.notifyDataSetChanged()
             }
         })
 
