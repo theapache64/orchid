@@ -10,7 +10,7 @@ import com.tp.orchid.data.remote.ApiInterface
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.utils.ApiResponse
 import com.tp.orchid.utils.AppExecutors
-import com.tp.orchid.utils.NetworkBoundResource
+import com.tp.orchid.utils.cache.NetworkBoundResource
 import com.tp.orchid.utils.Resource
 import java.util.*
 import javax.inject.Inject

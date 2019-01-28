@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.tp.orchid.data.remote.get_movie.GetMovieResponse
+import com.tp.orchid.data.remote.getmovie.GetMovieResponse
 
 @Dao
 interface MovieDetailsDao {

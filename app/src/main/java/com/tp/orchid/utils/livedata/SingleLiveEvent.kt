@@ -1,4 +1,4 @@
-package com.tp.orchid.utils
+package com.tp.orchid.utils.livedata
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

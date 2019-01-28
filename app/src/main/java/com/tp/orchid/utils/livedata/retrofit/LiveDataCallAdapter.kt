@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.tp.orchid.utils
+package com.tp.orchid.utils.livedata.retrofit
 
 
 import androidx.lifecycle.LiveData
+import com.tp.orchid.utils.ApiResponse
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback

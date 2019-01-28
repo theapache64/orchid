@@ -9,7 +9,7 @@ import com.tp.orchid.data.local.entities.SearchHistoryMovieRel
 import com.tp.orchid.data.local.typeconverters.DateConverter
 import com.tp.orchid.data.local.typeconverters.RatingsConverter
 import com.tp.orchid.data.remote.search.SearchResponse
-import com.tp.orchid.data.remote.get_movie.GetMovieResponse
+import com.tp.orchid.data.remote.getmovie.GetMovieResponse
 
 @Database(
     entities = [

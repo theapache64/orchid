@@ -37,31 +37,32 @@ class MovieActivity : BaseAppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ViewCompat.setTransitionName(binding.ivPoster, TRANSITION_NAME_POSTER)
 
-
         // getting viewModel
         val viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
 
         // set params to viewModel
-        viewModel.movie = intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie
+        viewModel.setMovie(intent.getSerializableExtra(SearchResponse.Movie.KEY) as SearchResponse.Movie)
 
         // building details
-        val movieDetails = viewModel.movie.getDetailsAsKeyValues()
+        val movieDetails = viewModel.getMovie().getDetailsAsKeyValues()
         this.adapter = KeyValueAdapter(this, movieDetails)
 
-        val movieDetailsLiveData = viewModel.getMovieDetails()
-        movieDetailsLiveData.observe(this, Observer {
+        // getting movie details
+        viewModel.getMovieDetails().observe(this, Observer {
+
             when (it.status) {
                 Resource.Status.LOADING -> {
                     /// do nothing
                 }
                 Resource.Status.SUCCESS -> {
                     adapter.appendKeyValues(it.data!!.getDetailsAsKeyValues())
-                    movieDetailsLiveData.removeObservers(this)
+                    viewModel.getMovieDetails().removeObservers(this)
                 }
                 Resource.Status.ERROR -> {
                     toast(it.message ?: "Failed to fetch more details")
                 }
             }
+
         })
 
 

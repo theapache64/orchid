@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
     indices = [Index(value = ["sh_id"])]
 )
 class SearchHistory(
+
     @ColumnInfo(name = "sh_keyword")
     val keyword: String,
 
@@ -27,6 +28,7 @@ class SearchHistory(
 
     @ColumnInfo(name = "sh_created_at")
     val createdAt: Date = Date()
+
 ) {
 
     @PrimaryKey(autoGenerate = true)
@@ -35,7 +37,7 @@ class SearchHistory(
 
     companion object {
         // 3 days
-        val SEARCH_HISTORY_AGE = TimeUnit.SECONDS.toMillis(30)
+        val SEARCH_HISTORY_AGE = TimeUnit.DAYS.toMillis(3)
     }
 
     fun isExpired(): Boolean {

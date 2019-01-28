@@ -1,13 +1,11 @@
 package com.tp.orchid.ui.activities.splash
 
-import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.ui.activities.login.LogInActivity
 import com.tp.orchid.ui.activities.main.MainActivity
-import com.tp.orchid.utils.Resource
-import com.tp.orchid.utils.SingleLiveEvent
+import com.tp.orchid.utils.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(private val user: LogInResponse.User?) : ViewModel() {

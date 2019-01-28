@@ -1,11 +1,10 @@
 package com.tp.orchid.data.local.dao
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 import com.tp.orchid.data.local.entities.SearchHistory
 import com.tp.orchid.data.local.entities.SearchHistoryMovieRel
-import com.tp.orchid.data.remote.search.SearchResponse
 
 @Dao
 interface SearchHistoryMovieRelDao {

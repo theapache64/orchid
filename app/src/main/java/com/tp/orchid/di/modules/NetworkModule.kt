@@ -1,7 +1,7 @@
 package com.tp.orchid.di.modules
 
 import com.tp.orchid.data.remote.ApiInterface
-import com.tp.orchid.utils.LiveDataCallAdapterFactory
+import com.tp.orchid.utils.livedata.retrofit.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

@@ -21,20 +21,17 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE mv_imdb_id=:imdbId")
     fun findMovieByImdbId(imdbId: String): SearchResponse.Movie?
 
-    @Query(
-        """
-            SELECT
-                 mv.*
-                FROM search_histories_movies_rel shmr
-                INNER JOIN movies mv ON mv.mv_id = shmr.shmr_movie_id
-                INNER JOIN search_histories sh  ON sh.sh_id = shmr.shmr_search_history_id
-                WHERE sh.sh_keyword = :keyword AND sh.sh_page = :page GROUP BY mv.mv_imdb_id ORDER BY mv.mv_year DESC"""
-    )
-    fun getMovies(keyword: String, page: Int): LiveData<List<SearchResponse.Movie>>
+    @Query("SELECT * FROM movies WHERE mv_is_fav = 1 GROUP BY mv_imdb_id")
+    fun getFavMovies(): LiveData<List<SearchResponse.Movie>>
 
     @Query(
-        "SELECT * FROM movies WHERE mv_is_fav = 1"
+        """SELECT
+            mv.*
+            FROM search_histories_movies_rel shmr
+            INNER JOIN movies mv ON mv.mv_id = shmr.shmr_movie_id
+            INNER JOIN search_histories sh  ON sh.sh_id = shmr.shmr_search_history_id
+            WHERE sh.sh_keyword = :keyword AND sh.sh_page = :page GROUP BY mv.mv_id ORDER BY mv.mv_year DESC"""
     )
-    fun getFavMovies(): LiveData<List<SearchResponse.Movie>>
+    fun getMovies(keyword: String, page: Int): LiveData<List<SearchResponse.Movie>>
 
 }

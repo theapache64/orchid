@@ -38,15 +38,12 @@ class MainActivity : BaseAppCompatActivity() {
     @set:Inject
     var user: LogInResponse.User? = null;
 
-
     private lateinit var viewModel: MainViewModel
-
-    private var isLoadingEnabled: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        val binding = bindContentView<ActivityMainBinding>(com.tp.orchid.R.layout.activity_main)
+        val binding = bindContentView<ActivityMainBinding>(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
 
@@ -63,7 +60,6 @@ class MainActivity : BaseAppCompatActivity() {
         // Watching for movie response
         viewModel.getSearchResponse().observe(this, Observer { response ->
             if (response.status == Resource.Status.SUCCESS) {
-                info("Success :")
                 if (response.data != null && response.data.isNotEmpty()) {
                     adapter.appendMovies(response.data)
                     adapter.notifyDataSetChanged()
@@ -71,7 +67,7 @@ class MainActivity : BaseAppCompatActivity() {
             }
         })
 
-        // watching for clear list command
+        // Watching for clear list command
         viewModel.getClearListLiveData().observe(this, Observer { isClear ->
             if (isClear) {
                 adapter.clearMovies()

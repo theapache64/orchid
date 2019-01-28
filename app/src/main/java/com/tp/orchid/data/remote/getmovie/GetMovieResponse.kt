@@ -1,8 +1,7 @@
-package com.tp.orchid.data.remote.get_movie
+package com.tp.orchid.data.remote.getmovie
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import com.tp.orchid.R

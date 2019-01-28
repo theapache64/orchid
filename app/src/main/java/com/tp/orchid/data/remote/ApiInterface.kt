@@ -1,12 +1,11 @@
 package com.tp.orchid.data.remote
 
 import androidx.lifecycle.LiveData
-import com.tp.orchid.data.remote.get_movie.GetMovieResponse
+import com.tp.orchid.data.remote.getmovie.GetMovieResponse
 import com.tp.orchid.data.remote.login.LogInRequest
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.data.remote.search.SearchResponse
 import com.tp.orchid.utils.ApiResponse
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.*
 

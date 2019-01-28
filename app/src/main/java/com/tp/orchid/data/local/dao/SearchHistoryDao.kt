@@ -16,6 +16,4 @@ interface SearchHistoryDao {
 
     @Delete
     fun delete(searchHistory: SearchHistory)
-
-
 }

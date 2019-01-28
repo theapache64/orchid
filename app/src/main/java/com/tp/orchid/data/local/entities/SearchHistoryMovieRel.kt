@@ -8,6 +8,7 @@ import java.util.*
     tableName = "search_histories_movies_rel",
     indices = [Index(value = ["shmr_movie_id", "shmr_search_history_id"], unique = true)],
     foreignKeys = [
+
         // search_history_id
         ForeignKey(
             entity = SearchHistory::class,

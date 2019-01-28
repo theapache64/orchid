@@ -11,49 +11,43 @@ class MainViewModel @Inject constructor(
     val omdbRepository: OmdbRepository
 ) : ViewModel() {
 
-    val keyword = MutableLiveData<String>("Iron Man");
+    val totalPages: Int = 0
+    val keyword = MutableLiveData<String>("God Father");
     val page = MutableLiveData<Int>()
     val message = ObservableField<String>("Welcome!");
     val clearListLiveData = MutableLiveData<Boolean>()
 
-    private val searchResponse = Transformations.switchMap(keyword) { keyword ->
-        // keyword changed
-        if (keyword.isEmpty()) {
-            message.set("Please enter movie name")
-            return@switchMap null
-        }
-
-        clearListLiveData.value = true
-
-        omdbRepository.search(keyword, 1)
-    }
-
-    // on keyword changed, change page number
-    private val searchResponseNew = Transformations.map(keyword) { keyword ->
-        // keyword changed
-        if (keyword.isEmpty()) {
-            message.set("Please enter movie name")
-            return@map null
-        }
-
-        clearListLiveData.value = true
-        page.value = 1
-    }
-
     // on page number changed, load data
-    private val searchResponseNew2 = Transformations.switchMap(page) { newPage ->
-        omdbRepository.search(keyword.value!!, newPage)
+    private val searchResponse = Transformations.switchMap(page) { newPage ->
+        return@switchMap omdbRepository.search(keyword.value!!, newPage)
     }
 
-
-    val searchMerger = MediatorLiveData<Resource<List<SearchResponse.Movie>>>()
+    private val searchMerger = MediatorLiveData<Resource<List<SearchResponse.Movie>>>()
 
     init {
 
+        // keyword changed, change page no to 1
+        searchMerger.addSource(keyword) { keyword ->
+
+            if (keyword.isEmpty()) {
+                message.set("Please enter movie name")
+                return@addSource
+            }
+
+            clearListLiveData.value = true
+
+            // change page no
+            page.value = 1
+        }
+
+        // searchResponse changed
         searchMerger.addSource(searchResponse) {
             when (it.status) {
                 Resource.Status.LOADING -> message.set("Searching '${keyword.value}'")
-                Resource.Status.SUCCESS -> message.set("Found ${it.data?.size} movies")
+                Resource.Status.SUCCESS -> {
+                    val itemsPerPage = it.data?.size
+                    message.set("Found ${itemsPerPage} movies")
+                }
                 Resource.Status.ERROR -> message.set("${it.message}")
             }
             searchMerger.value = it
@@ -62,4 +56,7 @@ class MainViewModel @Inject constructor(
 
     fun getSearchResponse(): LiveData<Resource<List<SearchResponse.Movie>>> = searchMerger
     fun getClearListLiveData(): LiveData<Boolean> = clearListLiveData
+    fun loadNextPage() {
+        page.value = page.value!! + 1
+    }
 }
