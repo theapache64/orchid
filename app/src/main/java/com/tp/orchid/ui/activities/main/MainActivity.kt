@@ -4,12 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.tp.orchid.R
 import com.tp.orchid.data.remote.login.LogInResponse
 import com.tp.orchid.databinding.ActivityMainBinding
@@ -19,7 +22,6 @@ import com.tp.orchid.ui.activities.login.LogInActivity
 import com.tp.orchid.ui.adapters.MoviesAdapter
 import com.tp.orchid.utils.Resource
 import com.tp.orchid.utils.extensions.bindContentView
-import com.tp.orchid.utils.extensions.info
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -40,6 +42,7 @@ class MainActivity : BaseAppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -57,14 +60,32 @@ class MainActivity : BaseAppCompatActivity() {
 
         binding.adapter = adapter
 
+
         // Watching for movie response
         viewModel.getSearchResponse().observe(this, Observer { response ->
-            if (response.status == Resource.Status.SUCCESS) {
-                if (response.data != null && response.data.isNotEmpty()) {
-                    adapter.appendMovies(response.data)
-                    adapter.notifyDataSetChanged()
+
+            when (response.status) {
+
+                Resource.Status.LOADING -> {
+
+                    binding.include.progressMovies.show()
+                }
+
+                Resource.Status.ERROR -> {
+                    binding.include.progressMovies.hide()
+                }
+
+                Resource.Status.SUCCESS -> {
+
+                    binding.include.progressMovies.hide()
+
+                    if (response.data != null && response.data.isNotEmpty()) {
+                        adapter.appendMovies(response.data)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
             }
+
         })
 
         // Watching for clear list command
@@ -75,6 +96,26 @@ class MainActivity : BaseAppCompatActivity() {
             }
         })
 
+        // pagination using recyclerview
+        binding.include.rvMovies.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0)
+                //check for scroll down
+                {
+                    val mLayoutManager = recyclerView.layoutManager as GridLayoutManager
+                    val visibleItemCount = mLayoutManager.getChildCount()
+                    val totalItemCount = mLayoutManager.getItemCount()
+                    val pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition()
+
+                    if (viewModel.isPaginationEnabled) {
+                        if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
+                            Log.v("...", "Last Item Wow !")
+                            viewModel.loadNextPage()
+                        }
+                    }
+                }
+            }
+        })
 
     }
 

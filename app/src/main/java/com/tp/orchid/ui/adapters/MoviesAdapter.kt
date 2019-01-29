@@ -26,8 +26,19 @@ class MoviesAdapter(
     /**
      * Sets movie list and update the adapter
      */
-    fun appendMovies(movies: List<SearchResponse.Movie>) {
-        this.movies.addAll(movies)
+    fun appendMovies(newMovies: List<SearchResponse.Movie>) {
+
+        // loop through new movies and if not exist add to list
+        newMovies.forEach { newMovie ->
+            // checking if new movie exist in the current list
+            val isNewMovie = this.movies
+                .filter { oldMovie -> oldMovie.imdbId == newMovie.imdbId }
+                .isEmpty()
+
+            if (isNewMovie) {
+                this.movies.add(newMovie)
+            }
+        }
     }
 
     /**

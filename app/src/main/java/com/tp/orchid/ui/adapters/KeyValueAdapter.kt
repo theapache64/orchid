@@ -22,7 +22,6 @@ class KeyValueAdapter(
     }
 
     fun appendKeyValues(keyValues: List<KeyValue>) {
-        val beforeAppend = this.keyValues.size
         this.keyValues.addAll(keyValues)
         this.notifyDataSetChanged()
     }

@@ -11,8 +11,8 @@ class MainViewModel @Inject constructor(
     val omdbRepository: OmdbRepository
 ) : ViewModel() {
 
-    val totalPages: Int = 0
-    val keyword = MutableLiveData<String>("God Father");
+    internal var isPaginationEnabled = false
+    val keyword = MutableLiveData<String>("Superman");
     val page = MutableLiveData<Int>()
     val message = ObservableField<String>("Welcome!");
     val clearListLiveData = MutableLiveData<Boolean>()
@@ -43,12 +43,21 @@ class MainViewModel @Inject constructor(
         // searchResponse changed
         searchMerger.addSource(searchResponse) {
             when (it.status) {
-                Resource.Status.LOADING -> message.set("Searching '${keyword.value}'")
+                Resource.Status.LOADING -> {
+                    message.set("Searching '${keyword.value}'")
+                    isPaginationEnabled = false
+                }
                 Resource.Status.SUCCESS -> {
                     val itemsPerPage = it.data?.size
                     message.set("Found ${itemsPerPage} movies")
+                    isPaginationEnabled = true
                 }
-                Resource.Status.ERROR -> message.set("${it.message}")
+                Resource.Status.ERROR -> {
+                    message.set("${it.message}")
+                    if (it.message == "Movie not found!") {
+                        isPaginationEnabled = false
+                    }
+                }
             }
             searchMerger.value = it
         }
