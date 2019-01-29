@@ -1,3 +1,5 @@
 ## Orchid
 
-![](https://bitbucket.org/thinkpalm-android/orchid/raw/8ee9a88698ff6aec0da39be73c931ddd2fbe041a/design.png)
+A beautiful movie app, crafted with MVVM, LiveData, Dagger, Room, Retrofit and RxJava
+
+![](https://raw.githubusercontent.com/theapache64/orchid/master/design.png)
