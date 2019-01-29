@@ -1,5 +1,6 @@
 package com.tp.orchid.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -16,4 +17,7 @@ interface SearchHistoryDao {
 
     @Delete
     fun delete(searchHistory: SearchHistory)
+
+    @Query("SELECT COUNT(sh_id) AS total_hits FROM search_histories")
+    fun getTotalSearchHistories(): Long
 }

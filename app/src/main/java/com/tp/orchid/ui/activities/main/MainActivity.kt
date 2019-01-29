@@ -67,7 +67,6 @@ class MainActivity : BaseAppCompatActivity() {
             when (response.status) {
 
                 Resource.Status.LOADING -> {
-
                     binding.include.progressMovies.show()
                 }
 
