@@ -43,7 +43,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
 
     // Room
-    def roomVersion = '2.1.0-alpha03'
+    def roomVersion = '2.1.0-alpha04'
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion" // use kapt for Kotlin
     implementation "androidx.room:room-rxjava2:$roomVersion"
