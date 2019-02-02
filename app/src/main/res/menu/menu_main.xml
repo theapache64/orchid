@@ -1,9 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.tp.theah64.orchidexample.MainActivity">
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.tp.theah64.orchidexample.ui.activities.main.MainActivity">
+
+    <item
+        android:id="@+id/action_fav"
+        android:icon="@drawable/ic_favorite_border_white_24dp"
+        android:title="@string/action_favorites"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@drawable/ic_logout"
+        android:orderInCategory="100"
+        android:title="@string/title_logout"
+        app:showAsAction="ifRoom" />
+
+
 </menu>

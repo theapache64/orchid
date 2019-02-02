@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.tp.theah64.orchidexample.ui.activities.login.LogInViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".example.ui.activities.login.LogInActivity">
+
+        <include layout="@layout/partial_background" />
+
+        <!--Batman-->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="36dp"
+            android:src="@drawable/ic_batman"
+            app:layout_constraintBottom_toTopOf="@id/tilUsername"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <!--Username-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUsername"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:hint="@string/hint_username"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:singleLine="true"
+                android:text="@={viewModel.username}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!--Password-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/CustomTextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/hint_password"
+            app:layout_constraintEnd_toEndOf="@id/tilUsername"
+            app:layout_constraintStart_toStartOf="@id/tilUsername"
+            app:layout_constraintTop_toBottomOf="@id/tilUsername"
+            app:passwordToggleDrawable="@drawable/password_visibility_selector"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:text="@={viewModel.password}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:onClick="@{()-> viewModel.onLogInPressed()}"
+            android:text="@string/action_login"
+            app:layout_constraintEnd_toEndOf="@id/tilPassword"
+            app:layout_constraintStart_toStartOf="@id/tilPassword"
+            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:theme="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
